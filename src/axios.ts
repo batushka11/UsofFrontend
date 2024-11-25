@@ -1,4 +1,6 @@
 import axios from 'axios'
+import { updateToken } from './redux/auth/authSlice' // Импортируйте action
+import store from './redux/store' // Импортируйте ваш store
 
 const apiClient = axios.create({
 	baseURL: process.env.REACT_APP_API_BASE_URL,
@@ -21,7 +23,7 @@ const processQueue = (error: any, token: string | null = null) => {
 
 apiClient.interceptors.request.use(
 	config => {
-		const token = localStorage.getItem('accessToken')
+		const token = store.getState().auth.token // Берём токен из Redux state
 		if (token) {
 			config.headers.Authorization = `Bearer ${token}`
 		}
@@ -58,7 +60,12 @@ apiClient.interceptors.response.use(
 				)
 
 				const newAccessToken = response.data.accessToken
+
+				// Сохранение в localStorage
 				localStorage.setItem('accessToken', newAccessToken)
+
+				// Обновление в Redux state
+				store.dispatch(updateToken(newAccessToken))
 
 				processQueue(null, newAccessToken)
 
@@ -67,6 +74,7 @@ apiClient.interceptors.response.use(
 			} catch (err) {
 				processQueue(err, null)
 				localStorage.removeItem('accessToken')
+				store.dispatch(updateToken(null)) // Удаление токена из state
 				window.location.href = '/login'
 				return Promise.reject(err)
 			} finally {

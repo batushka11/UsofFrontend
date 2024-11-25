@@ -1,10 +1,47 @@
-'use client'
+import {
+	Box,
+	Button,
+	Flex,
+	Heading,
+	Stack,
+	Text,
+	useToast
+} from '@chakra-ui/react'
+import { useEffect } from 'react'
+import { useNavigate, useParams } from 'react-router-dom'
+import { useAppDispatch, useAppSelector } from '../../hooks/reduxHooks'
+import { confirmAccountAsyncThunk } from '../../redux/auth/authThunks'
 
-import { Box, Button, Flex, Heading, Stack, Text } from '@chakra-ui/react'
-import { useNavigate } from 'react-router-dom'
-
-const ConfirmAccount: React.FC = () => {
+const ConfirmAccountForm: React.FC = () => {
+	const { token } = useParams<{ token: string }>()
 	const navigate = useNavigate()
+	const toast = useToast()
+	const { loading, success, error } = useAppSelector(state => state.auth)
+	const dispatch = useAppDispatch()
+
+	useEffect(() => {
+		dispatch(confirmAccountAsyncThunk(token as string))
+	}, [token, dispatch])
+
+	useEffect(() => {
+		if (success) {
+			toast({
+				title: 'Confirm account successful.',
+				status: 'success',
+				duration: 3000,
+				isClosable: true
+			})
+		}
+		if (error) {
+			toast({
+				title: 'Confirm failed',
+				description: error,
+				status: 'error',
+				duration: 3000,
+				isClosable: true
+			})
+		}
+	}, [success, error, dispatch, toast, navigate])
 
 	return (
 		<Flex minH="100vh" align="center" justify="center" bg="brand.50" px={4}>
@@ -50,4 +87,4 @@ const ConfirmAccount: React.FC = () => {
 	)
 }
 
-export default ConfirmAccount
+export default ConfirmAccountForm

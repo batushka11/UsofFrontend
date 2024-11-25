@@ -5,8 +5,8 @@ const Logo = () => {
 	return (
 		<svg
 			xmlns="http://www.w3.org/2000/svg"
-			width="150"
-			height="80"
+			width="250"
+			height="180"
 			viewBox="0 0 400 150"
 			fill="none"
 			onClick={() => navigate('/')}
