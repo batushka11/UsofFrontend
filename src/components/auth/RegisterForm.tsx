@@ -66,7 +66,11 @@ const RegisterForm: React.FC = () => {
 				<HStack>
 					<FormControl id="username" isRequired>
 						<FormLabel color="brand.400">Username</FormLabel>
-						<Input type="text" focusBorderColor="brand.400" />
+						<Input
+							type="text"
+							focusBorderColor="brand.400"
+							{...register('login')}
+						/>
 					</FormControl>
 					<FormControl id="fullName" isRequired>
 						<FormLabel color="brand.400">Full Name</FormLabel>

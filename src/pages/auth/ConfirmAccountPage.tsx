@@ -1,4 +1,4 @@
-import ConfirmAccountForm from '../components/auth/ConfirmAccountForm'
+import ConfirmAccountForm from '../../components/auth/ConfirmAccountForm'
 
 const ConfirmAccountPage: React.FC = () => {
 	return <ConfirmAccountForm />
