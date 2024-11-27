@@ -39,7 +39,7 @@ const LoginPage: React.FC = () => {
 			<Flex align="center" justify="center" flex="1" w="full">
 				<Box
 					rounded="lg"
-					bg="brand.0"
+					bg="brand.800"
 					boxShadow="lg"
 					p={16}
 					width={{ base: 'full', md: 'lg' }}

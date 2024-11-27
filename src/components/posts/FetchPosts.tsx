@@ -21,8 +21,11 @@ export interface Post {
 	commentsCount: number
 }
 
-const fetchPostsWithDetails = async (page: number): Promise<Post[]> => {
-	const response = await apiClient.get(`/posts?page=${page}&limit=10`)
+const fetchPostsWithDetails = async (
+	page: number,
+	path: string
+): Promise<Post[]> => {
+	const response = await apiClient.get(`${path}?page=${page}&limit=10`)
 	const posts = response.data.posts
 
 	const detailedPosts = await Promise.all(

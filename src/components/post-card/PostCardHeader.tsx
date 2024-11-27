@@ -1,16 +1,6 @@
-import {
-	Avatar,
-	AvatarBadge,
-	Flex,
-	IconButton,
-	Menu,
-	MenuButton,
-	MenuItem,
-	MenuList,
-	Text
-} from '@chakra-ui/react'
-import { FiBell, FiBookmark, FiMoreVertical } from 'react-icons/fi'
-import { Post } from './FetchPosts'
+import { Avatar, AvatarBadge, Flex, Text } from '@chakra-ui/react'
+import { Post } from '../posts/FetchPosts'
+import MenuActions from './PostCardHeaderMenuAction'
 
 const check_activity = (date: string): boolean => {
 	const givenDate = new Date(date)
@@ -69,21 +59,7 @@ const PostCardHeader: React.FC<{ post: Post }> = ({ post }) => {
 					</Text>
 				</Flex>
 			</Flex>
-			<Menu placement="auto">
-				<MenuButton
-					as={IconButton}
-					aria-label="settings"
-					icon={<FiMoreVertical />}
-					variant="ghost"
-					fontWeight="bold"
-					size="lg"
-					mt="-50px"
-				/>
-				<MenuList>
-					<MenuItem icon={<FiBookmark />}>Add to Bookmark</MenuItem>
-					<MenuItem icon={<FiBell />}>Subscribe</MenuItem>
-				</MenuList>
-			</Menu>
+			<MenuActions post={post} />
 		</Flex>
 	)
 }

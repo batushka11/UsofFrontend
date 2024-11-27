@@ -17,7 +17,7 @@ const LinkItems: Array<LinkItemProps> = [
 	{ name: 'Home', icon: FiHome, redirect: '/Home' },
 	{ name: 'My posts', icon: BsFilePost, redirect: '#' },
 	{ name: 'Create post', icon: IoIosCreate, redirect: '#' },
-	{ name: 'Bookmarks', icon: FaBookmark, redirect: '#' },
+	{ name: 'Bookmarks', icon: FaBookmark, redirect: '/bookmarks' },
 	{ name: 'Subscribes', icon: FiBell, redirect: '#' }
 ]
 

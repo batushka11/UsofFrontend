@@ -38,7 +38,7 @@ const ResetPasswordPage: React.FC = () => {
 					spacing={4}
 					w={'full'}
 					maxW={'md'}
-					bg={'brand.0'}
+					bg={'brand.800'}
 					rounded={'xl'}
 					boxShadow={'lg'}
 					p={6}

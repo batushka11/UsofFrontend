@@ -5,6 +5,7 @@ import LoginPage from './pages/auth/LoginPage'
 import NewPasswordPage from './pages/auth/NewPasswordPage'
 import RegisterPage from './pages/auth/RegisterPage'
 import ResetPasswordPage from './pages/auth/ResetPasswordPage'
+import BookmarksPage from './pages/BookmarksPage'
 import NotFoundPage from './pages/errors/404'
 import HomePage from './pages/HomePage'
 import LandingPage from './pages/LandingPage'
@@ -32,6 +33,14 @@ function App() {
 				element={
 					<ProtectedRoute>
 						<ProfilePage />
+					</ProtectedRoute>
+				}
+			/>
+			<Route
+				path="/bookmarks"
+				element={
+					<ProtectedRoute>
+						<BookmarksPage />
 					</ProtectedRoute>
 				}
 			/>

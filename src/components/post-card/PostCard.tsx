@@ -1,5 +1,5 @@
 import { Box, Stack, Tag, Text, Tooltip } from '@chakra-ui/react'
-import { Post } from './FetchPosts'
+import { Post } from '../posts/FetchPosts'
 import PostCardFooter from './PostCardFooter'
 import PostCardHeader from './PostCardHeader'
 

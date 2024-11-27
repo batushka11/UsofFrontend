@@ -67,7 +67,7 @@ const ConfirmAccountForm: React.FC = () => {
 			</Flex>
 			<Flex align="center" justify="center" flex="1" w="full">
 				<Box
-					bg="brand.0"
+					bg="brand.800"
 					boxShadow="lg"
 					rounded="lg"
 					p={8}

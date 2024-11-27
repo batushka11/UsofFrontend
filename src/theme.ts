@@ -20,7 +20,7 @@ const theme = extendTheme({
 		colors: {
 			'brand.0': {
 				default: '#ffffff',
-				_dark: '#000000'
+				_dark: '#1A1A1A'
 			},
 			'brand.50': {
 				default: '#EDE0D4',
@@ -52,7 +52,11 @@ const theme = extendTheme({
 			},
 			'brand.700': {
 				default: '#EDE0D4',
-				_dark: '#000000'
+				_dark: '#1A1A1A'
+			},
+			'brand.800': {
+				default: '#ffffff',
+				_dark: '#0f0f0f'
 			}
 		}
 	},

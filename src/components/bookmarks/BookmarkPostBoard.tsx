@@ -1,12 +1,11 @@
-import { Box, Flex, SimpleGrid, Spinner, useToast } from '@chakra-ui/react'
+import { Box, Flex, SimpleGrid, Spinner, Text } from '@chakra-ui/react'
 import { useEffect, useState } from 'react'
 import apiClient from '../../helpers/axios'
 import Pagination from '../home/Pagination'
 import PostCard from '../post-card/PostCard'
-import fetchPostsWithDetails, { Post } from './FetchPosts'
+import fetchPostsWithDetails, { Post } from '../posts/FetchPosts'
 
-const PostsBoard: React.FC = () => {
-	const toast = useToast()
+const BookmarkPostsBoard: React.FC = () => {
 	const [posts, setPosts] = useState<Post[]>([])
 	const [loading, setLoading] = useState(false)
 	const [currentPage, setCurrentPage] = useState(1)
@@ -17,18 +16,16 @@ const PostsBoard: React.FC = () => {
 			setLoading(true)
 			try {
 				const response = await apiClient.get(
-					`/posts?page=${currentPage}&limit=10`
+					`/users/favorite?page=${currentPage}&limit=10`
 				)
-				const detailedPosts = await fetchPostsWithDetails(currentPage, '/posts')
+				const detailedPosts = await fetchPostsWithDetails(
+					currentPage,
+					'/users/favorite'
+				)
 				setPosts(detailedPosts)
 				setTotalPages(response.data.totalPages)
 			} catch (error: any) {
-				toast({
-					title: error.response?.data?.message,
-					status: 'error',
-					duration: 3000,
-					isClosable: true
-				})
+				console.error(error)
 			} finally {
 				setLoading(false)
 			}
@@ -39,7 +36,9 @@ const PostsBoard: React.FC = () => {
 
 	return (
 		<Box>
-			{loading ? (
+			{posts.length < 1 ? (
+				<Text>You don't have any posts in a bookmarks</Text>
+			) : loading ? (
 				<Flex justify="center" align="center" minH="200px">
 					<Spinner size="xl" />
 				</Flex>
@@ -61,4 +60,4 @@ const PostsBoard: React.FC = () => {
 	)
 }
 
-export default PostsBoard
+export default BookmarkPostsBoard

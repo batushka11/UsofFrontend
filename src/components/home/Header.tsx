@@ -19,7 +19,8 @@ import {
 	useToast,
 	VStack
 } from '@chakra-ui/react'
-import { FiBell, FiSearch } from 'react-icons/fi'
+import { FaStar } from 'react-icons/fa'
+import { FiSearch } from 'react-icons/fi'
 import { useNavigate } from 'react-router-dom'
 import apiClient from '../../helpers/axios'
 import { useAppDispatch, useAppSelector } from '../../hooks/reduxHooks'
@@ -73,13 +74,6 @@ const Header: React.FC = () => {
 			zIndex="1000"
 		>
 			<LogoHome />
-			<IconButton
-				aria-label="Switch color mode"
-				icon={colorMode === 'light' ? <MoonIcon /> : <SunIcon />}
-				onClick={toggleColorMode}
-				variant="ghost"
-				size="lg"
-			/>
 			<Box flex="1" px="4">
 				<InputGroup>
 					<InputLeftElement
@@ -96,9 +90,18 @@ const Header: React.FC = () => {
 					/>
 				</InputGroup>
 			</Box>
-
 			<HStack spacing="6">
-				<Icon as={FiBell} fontSize="24" color="brand.400" />
+				<IconButton
+					aria-label="Switch color mode"
+					icon={colorMode === 'light' ? <MoonIcon /> : <SunIcon />}
+					onClick={toggleColorMode}
+					variant="ghost"
+					size="lg"
+				/>
+				<FaStar color="#ECC94B" fontSize="lg" />
+				<Text fontSize="lg" color="brand.100" fontWeight="bold" ml="-4">
+					{user.rating}
+				</Text>
 				<Flex alignItems="center">
 					<Menu>
 						<MenuButton>
