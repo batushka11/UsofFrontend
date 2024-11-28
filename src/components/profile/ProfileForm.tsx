@@ -17,6 +17,7 @@ const ProfileForm: React.FC = () => {
 				<FormControl>
 					<FormLabel>Username</FormLabel>
 					<Input
+						isReadOnly
 						borderWidth="2px"
 						borderColor="brand.100"
 						placeholder="Enter login"
@@ -31,6 +32,7 @@ const ProfileForm: React.FC = () => {
 				<FormControl>
 					<FormLabel>Full Name</FormLabel>
 					<Input
+						isReadOnly
 						borderWidth="2px"
 						borderColor="brand.100"
 						placeholder="Enter full name"
@@ -47,29 +49,13 @@ const ProfileForm: React.FC = () => {
 				<FormControl>
 					<FormLabel>Email</FormLabel>
 					<Input
+						isReadOnly
 						borderWidth="2px"
 						borderColor="brand.100"
 						placeholder="Enter email"
 						value={formData.email}
 						_hover={{ borderColor: 'brand.500' }}
 						onChange={e => setFormData({ ...formData, email: e.target.value })}
-					/>
-				</FormControl>
-			</GridItem>
-
-			<GridItem colSpan={2}>
-				<FormControl>
-					<FormLabel>New Password</FormLabel>
-					<Input
-						borderWidth="2px"
-						borderColor="brand.100"
-						type="password"
-						placeholder="Enter new password"
-						value={formData.password}
-						_hover={{ borderColor: 'brand.500' }}
-						onChange={e =>
-							setFormData({ ...formData, password: e.target.value })
-						}
 					/>
 				</FormControl>
 			</GridItem>

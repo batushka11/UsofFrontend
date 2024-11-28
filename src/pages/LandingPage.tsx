@@ -118,7 +118,7 @@ const LandingPage: React.FC = () => {
 								borderColor="brand.400"
 								color="brand.400"
 								_hover={{ bg: 'brand.100', borderColor: 'brand.500' }}
-								onClick={() => navigate('/login')}
+								onClick={() => navigate('/home')}
 							>
 								Login
 							</Button>

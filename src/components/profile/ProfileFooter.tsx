@@ -7,19 +7,12 @@ import {
 	Input,
 	Stack
 } from '@chakra-ui/react'
-import { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useAppSelector } from '../../hooks/reduxHooks'
 
 const ProfileFooter: React.FC = () => {
 	const navigate = useNavigate()
 	const { user } = useAppSelector((state: any) => state.auth)
-
-	useEffect(() => {
-		if (!user) {
-			navigate('/login')
-		}
-	}, [user, navigate])
 
 	return (
 		<Box>

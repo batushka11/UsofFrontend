@@ -91,7 +91,7 @@ export const usePostActions = () => {
 				isClosable: true
 			})
 
-			if (window.location.href.includes('bookmark')) {
+			if (window.location.href.includes('subscribes')) {
 				window.location.reload()
 			}
 		} catch (error: any) {

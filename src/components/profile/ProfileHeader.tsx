@@ -1,13 +1,69 @@
-import { Avatar, Box, HStack, IconButton, Stack, Text } from '@chakra-ui/react'
-import { FaCamera, FaStar } from 'react-icons/fa' // Иконка для рейтинга
+import {
+	Avatar,
+	Box,
+	HStack,
+	IconButton,
+	Stack,
+	Text,
+	useToast
+} from '@chakra-ui/react'
+import { useRef } from 'react'
+import { FaCamera, FaStar } from 'react-icons/fa'
+import apiClient from '../../helpers/axios'
 import { useAppSelector } from '../../hooks/reduxHooks'
+import { updateUser } from '../../redux/auth/authSlice'
+import store from '../../redux/store'
 
 const ProfileHeader: React.FC = () => {
-	const { user } = useAppSelector((state: any) => state.auth)
+	const toast = useToast()
+	const { user } = useAppSelector(state => state.auth)
+	const inputRef = useRef<HTMLInputElement>(null)
+
+	const handleFileChange = async (
+		event: React.ChangeEvent<HTMLInputElement>
+	) => {
+		const file = event.target.files?.[0]
+
+		if (!file) return
+
+		const formData = new FormData()
+		formData.append('file', file)
+
+		try {
+			const response = await apiClient.patch('/users/avatar', formData)
+			toast({
+				title: 'Avatar successfully uploaded!',
+				description: response.data.message,
+				status: 'success',
+				duration: 3000,
+				isClosable: true
+			})
+
+			localStorage.setItem('user', JSON.stringify(response.data))
+
+			store.dispatch(updateUser(response.data))
+		} catch (error: any) {
+			toast({
+				title: 'Avatar upload failed',
+				description: error.response.data.error,
+				status: 'error',
+				duration: 3000,
+				isClosable: true
+			})
+		}
+	}
+
 	return (
 		<HStack justifyContent="space-between" alignItems="center" mb="8">
 			<Box position="relative">
 				<Avatar size="xl" src={user.avatarPath} />
+				<input
+					type="file"
+					accept="image/*"
+					ref={inputRef}
+					style={{ display: 'none' }}
+					onChange={handleFileChange}
+				/>
 				<IconButton
 					aria-label="Update Avatar"
 					icon={<FaCamera />}
@@ -19,6 +75,7 @@ const ProfileHeader: React.FC = () => {
 					right="0"
 					boxShadow="lg"
 					_hover={{ bg: 'brand.400', color: 'bg.50' }}
+					onClick={() => inputRef.current?.click()}
 				/>
 			</Box>
 			<Stack spacing="1" textAlign="right" align="flex-end">

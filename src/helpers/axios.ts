@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { updateToken } from '../redux/auth/authSlice'
+import { updateToken, updateUser } from '../redux/auth/authSlice'
 import store from '../redux/store'
 
 const apiClient = axios.create({
@@ -59,11 +59,14 @@ apiClient.interceptors.response.use(
 					{ withCredentials: true }
 				)
 
+				const newUserInfo = response.data.user
 				const newAccessToken = response.data.accessToken
 
 				localStorage.setItem('token', newAccessToken)
+				localStorage.setItem('user', JSON.stringify(newUserInfo))
 
 				store.dispatch(updateToken(newAccessToken))
+				store.dispatch(updateUser(newUserInfo))
 
 				processQueue(null, newAccessToken)
 
