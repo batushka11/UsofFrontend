@@ -1,15 +1,18 @@
 import { Flex } from '@chakra-ui/react'
 import Footer from '../components/footer/Footer'
 import SidebarWithHeader from '../components/home/SidebarWithHeader'
-import PostsBoard from '../components/posts/PostBoard'
+interface PageType {
+	content: React.ReactNode
+	height: string | number
+}
 
-const HomePage: React.FC = () => {
+const Page: React.FC<PageType> = ({ content, height }) => {
 	return (
 		<Flex direction="column" minH="100vh" bg="brand.50">
-			<SidebarWithHeader content=<PostsBoard /> height="100vh" />
+			<SidebarWithHeader content={content} height={height} />
 			<Footer />
 		</Flex>
 	)
 }
 
-export default HomePage
+export default Page

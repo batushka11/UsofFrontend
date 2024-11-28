@@ -3,6 +3,7 @@ import {
 	Avatar,
 	AvatarBadge,
 	Box,
+	Divider,
 	Flex,
 	HStack,
 	Icon,
@@ -136,7 +137,7 @@ const Header: React.FC = () => {
 								</VStack>
 							</HStack>
 						</MenuButton>
-						<MenuList bg="brand.400" borderColor="brand.50">
+						<MenuList bg="brand.50" borderColor="brand.50">
 							<MenuItem
 								bg="brand.50"
 								color="brand.500"
@@ -145,6 +146,7 @@ const Header: React.FC = () => {
 							>
 								Profile
 							</MenuItem>
+							<Divider borderColor="brand.500" borderWidth="2px" />
 							<MenuItem
 								bg="brand.50"
 								color="brand.500"

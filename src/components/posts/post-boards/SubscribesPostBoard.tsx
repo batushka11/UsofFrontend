@@ -1,11 +1,11 @@
 import { Box, Flex, SimpleGrid, Spinner, Text } from '@chakra-ui/react'
 import { useEffect, useState } from 'react'
-import apiClient from '../../helpers/axios'
-import Pagination from '../home/Pagination'
+import apiClient from '../../../helpers/axios'
+import Pagination from '../../home/Pagination'
+import fetchPostsWithDetails, { Post } from '../FetchPosts'
 import PostCard from '../post-card/PostCard'
-import fetchPostsWithDetails, { Post } from '../posts/FetchPosts'
 
-const BookmarkPostsBoard: React.FC = () => {
+const SubscribesPostsBoard: React.FC = () => {
 	const [posts, setPosts] = useState<Post[]>([])
 	const [loading, setLoading] = useState(false)
 	const [currentPage, setCurrentPage] = useState(1)
@@ -16,16 +16,15 @@ const BookmarkPostsBoard: React.FC = () => {
 			setLoading(true)
 			try {
 				const response = await apiClient.get(
-					`/users/favorite?page=${currentPage}&limit=10`
+					`/users/subscribe?page=${currentPage}&limit=10`
 				)
 				const detailedPosts = await fetchPostsWithDetails(
 					currentPage,
-					'/users/favorite'
+					'/users/subscribe'
 				)
 				setPosts(detailedPosts)
 				setTotalPages(response.data.totalPages)
 			} catch (error: any) {
-				console.error(error)
 			} finally {
 				setLoading(false)
 			}
@@ -36,12 +35,15 @@ const BookmarkPostsBoard: React.FC = () => {
 
 	return (
 		<Box>
-			{posts.length < 1 ? (
-				<Text>You don't have any posts in a bookmarks</Text>
-			) : loading ? (
+			<Text fontSize="3vh" fontWeight="extrabold" mb="2">
+				Subscribes
+			</Text>
+			{loading ? (
 				<Flex justify="center" align="center" minH="200px">
 					<Spinner size="xl" />
 				</Flex>
+			) : posts.length < 1 ? (
+				<Text>You don't have any posts in a subscribes</Text>
 			) : (
 				<>
 					<SimpleGrid columns={1} spacing="6">
@@ -60,4 +62,4 @@ const BookmarkPostsBoard: React.FC = () => {
 	)
 }
 
-export default BookmarkPostsBoard
+export default SubscribesPostsBoard

@@ -1,5 +1,5 @@
 import { Box, Stack, Tag, Text, Tooltip } from '@chakra-ui/react'
-import { Post } from '../posts/FetchPosts'
+import { Post } from '../FetchPosts'
 import PostCardFooter from './PostCardFooter'
 import PostCardHeader from './PostCardHeader'
 
@@ -15,7 +15,7 @@ const PostCard: React.FC<{ post: Post }> = ({ post }) => {
 			_hover={{ shadow: 'lg' }}
 		>
 			<PostCardHeader post={post} />
-			<Text fontSize="xl" fontWeight="bold" color="brand.400" mb="2">
+			<Text fontSize="xl" fontWeight="bold" color="brand.400" mb="2" mt="2">
 				{post.title}
 			</Text>
 			<Text noOfLines={3} fontSize="md" color="brand.500" mb="4">

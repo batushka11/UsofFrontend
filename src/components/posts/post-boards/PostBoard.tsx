@@ -1,9 +1,16 @@
-import { Box, Flex, SimpleGrid, Spinner, useToast } from '@chakra-ui/react'
+import {
+	Box,
+	Flex,
+	SimpleGrid,
+	Spinner,
+	Text,
+	useToast
+} from '@chakra-ui/react'
 import { useEffect, useState } from 'react'
-import apiClient from '../../helpers/axios'
-import Pagination from '../home/Pagination'
+import apiClient from '../../../helpers/axios'
+import Pagination from '../../home/Pagination'
+import fetchPostsWithDetails, { Post } from '../FetchPosts'
 import PostCard from '../post-card/PostCard'
-import fetchPostsWithDetails, { Post } from './FetchPosts'
 
 const PostsBoard: React.FC = () => {
 	const toast = useToast()
@@ -35,10 +42,13 @@ const PostsBoard: React.FC = () => {
 		}
 
 		fetchPosts()
-	}, [currentPage])
+	}, [currentPage, toast])
 
 	return (
 		<Box>
+			<Text fontSize="3vh" fontWeight="extrabold" mb="2">
+				Home page
+			</Text>
 			{loading ? (
 				<Flex justify="center" align="center" minH="200px">
 					<Spinner size="xl" />

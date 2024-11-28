@@ -19,6 +19,8 @@ export interface Post {
 	}
 	categories: Category[]
 	commentsCount: number
+	isBookmarked: boolean
+	isSubscribed: boolean
 }
 
 const fetchPostsWithDetails = async (

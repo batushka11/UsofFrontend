@@ -1,20 +1,5 @@
 import { extendTheme } from '@chakra-ui/react'
 
-// const colors = {
-// 	brand: {
-// 		50: '#EDE0D4',
-// 		100: '#E6CCB2',
-// 		200: '#DDB892',
-// 		300: '#B08968',
-// 		400: '#7F5539',
-// 		500: '#9C6644'
-// 	}
-// }
-
-// const theme = extendTheme({ colors })
-
-// export default theme
-
 const theme = extendTheme({
 	semanticTokens: {
 		colors: {
@@ -64,7 +49,11 @@ const theme = extendTheme({
 		global: (props: { colorMode: string }) => ({
 			body: {
 				bg: props.colorMode === 'dark' ? 'brand.0' : 'brand.50',
-				color: props.colorMode === 'dark' ? 'brand.600' : 'brand.400'
+				color: props.colorMode === 'dark' ? 'brand.600' : 'brand.400',
+				fontFamily: 'Parkinsans, sans-serif'
+			},
+			'*': {
+				fontFamily: 'Parkinsans, sans-serif'
 			}
 		})
 	}

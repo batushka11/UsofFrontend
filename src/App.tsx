@@ -1,15 +1,18 @@
 import { Route, Routes } from 'react-router-dom'
+import BookmarkPostsBoard from './components/posts/post-boards/BookmarkPostBoard'
+import PostsBoard from './components/posts/post-boards/PostBoard'
+import SubscribesPostsBoard from './components/posts/post-boards/SubscribesPostBoard'
+import UserPostsBoard from './components/posts/post-boards/UserPostBoars'
+import ProfileBoard from './components/profile/ProfileBoard'
 import ProtectedRoute from './helpers/ProtectedRoute'
 import ConfirmAccountPage from './pages/auth/ConfirmAccountPage'
 import LoginPage from './pages/auth/LoginPage'
 import NewPasswordPage from './pages/auth/NewPasswordPage'
 import RegisterPage from './pages/auth/RegisterPage'
 import ResetPasswordPage from './pages/auth/ResetPasswordPage'
-import BookmarksPage from './pages/BookmarksPage'
 import NotFoundPage from './pages/errors/404'
-import HomePage from './pages/HomePage'
 import LandingPage from './pages/LandingPage'
-import ProfilePage from './pages/ProfilePage'
+import Page from './pages/Pages'
 
 function App() {
 	return (
@@ -24,7 +27,7 @@ function App() {
 				path="/home"
 				element={
 					<ProtectedRoute>
-						<HomePage />
+						<Page content=<PostsBoard /> height="100vh" />
 					</ProtectedRoute>
 				}
 			/>
@@ -32,7 +35,7 @@ function App() {
 				path="/my-profile"
 				element={
 					<ProtectedRoute>
-						<ProfilePage />
+						<Page content=<ProfileBoard /> height="calc(100vh - 106px)" />
 					</ProtectedRoute>
 				}
 			/>
@@ -40,7 +43,23 @@ function App() {
 				path="/bookmarks"
 				element={
 					<ProtectedRoute>
-						<BookmarksPage />
+						<Page content=<BookmarkPostsBoard /> height="100vh" />
+					</ProtectedRoute>
+				}
+			/>
+			<Route
+				path="/subscribes"
+				element={
+					<ProtectedRoute>
+						<Page content=<SubscribesPostsBoard /> height="100vh" />
+					</ProtectedRoute>
+				}
+			/>
+			<Route
+				path="/my-posts"
+				element={
+					<ProtectedRoute>
+						<Page content=<UserPostsBoard /> height="100vh" />
 					</ProtectedRoute>
 				}
 			/>

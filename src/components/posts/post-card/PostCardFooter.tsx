@@ -2,7 +2,7 @@ import { Flex, Icon, Text } from '@chakra-ui/react'
 import { AiFillFire } from 'react-icons/ai'
 import { FaBook, FaPoop } from 'react-icons/fa'
 import { FiMessageCircle } from 'react-icons/fi'
-import { Post } from '../posts/FetchPosts'
+import { Post } from '../FetchPosts'
 
 const PostCardFooter: React.FC<{ post: Post }> = ({ post }) => {
 	return (
