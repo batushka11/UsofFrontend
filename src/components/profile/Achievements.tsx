@@ -16,6 +16,9 @@ const AchievementsBox: React.FC = () => {
 			borderRight="1px solid"
 			borderColor="brand.50"
 			pr="4"
+			bg="brand.50"
+			padding="2"
+			borderRadius="md"
 		>
 			<Text fontSize="xl" fontWeight="bold" mb="4">
 				Achievements

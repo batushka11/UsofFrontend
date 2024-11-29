@@ -1,4 +1,5 @@
-import { FaMedal, FaTrophy } from 'react-icons/fa'
+import { FaCrown, FaGem, FaMedal, FaStar, FaTrophy } from 'react-icons/fa'
+import { getAchievementCategories } from './AchievementsHelper'
 
 export const calculateMembershipBadges = (user: any) => {
 	const membershipBadges = []
@@ -15,34 +16,64 @@ export const calculateMembershipBadges = (user: any) => {
 	if (diffInDays >= 180)
 		membershipBadges.push({ label: '6 Months With Us', icon: FaMedal })
 	if (diffInDays >= 365)
-		membershipBadges.push({ label: '1 Year With Us', icon: FaMedal })
+		membershipBadges.push({ label: '1 Year With Us', icon: FaCrown })
+
+	if (diffInDays >= 730)
+		membershipBadges.push({ label: '2 Years With Us', icon: FaCrown })
+	if (diffInDays >= 1095)
+		membershipBadges.push({ label: '3 Years With Us', icon: FaCrown })
 
 	return membershipBadges
 }
 
 export const calculateAchievementBadges = (user: any) => {
 	const achievementBadges = []
+	const achievementCategories = getAchievementCategories(user)
+
+	achievementCategories.forEach(category => {
+		category.achievements.forEach(achievement => {
+			if (
+				[1, 10, 50, 100].includes(achievement.goal) &&
+				achievement.progress >= achievement.goal
+			) {
+				achievementBadges.push({
+					label: `${category.category}: ${achievement.label} Completed`,
+					icon: FaTrophy
+				})
+			}
+		})
+	})
+
+	if (user.postsCount >= 500) {
+		achievementBadges.push({ label: 'Master Poster', icon: FaCrown })
+	}
+
+	if (user.reactionsCount >= 1000) {
+		achievementBadges.push({ label: 'Reaction King', icon: FaCrown })
+	}
+
+	if (user.commentsCount >= 500) {
+		achievementBadges.push({ label: 'Comment Legend', icon: FaCrown })
+	}
+
+	if (
+		user.postsCount >= 1000 &&
+		user.reactionsCount >= 2000 &&
+		user.commentsCount >= 1000
+	) {
+		achievementBadges.push({ label: 'Ultimate Contributor', icon: FaStar })
+	}
+
 	let completedCategories = 0
 
-	if (user.postsCount >= 50) {
-		achievementBadges.push({ label: 'Posts Achiever', icon: FaTrophy })
-		completedCategories++
-	}
-
-	if (user.reactionsCount >= 100) {
-		achievementBadges.push({ label: 'Reactions Achiever', icon: FaTrophy })
-		completedCategories++
-	}
-
-	if (user.commentsCount >= 50) {
-		achievementBadges.push({ label: 'Comments Achiever', icon: FaTrophy })
-		completedCategories++
-	}
+	if (user.postsCount >= 2000) completedCategories++
+	if (user.reactionsCount >= 5000) completedCategories++
+	if (user.commentsCount >= 2000) completedCategories++
 
 	if (completedCategories === 3) {
 		achievementBadges.push({
-			label: 'All Achievements Completed',
-			icon: FaTrophy
+			label: 'Diamond Contributor. All Achievements Completed',
+			icon: FaGem
 		})
 	}
 

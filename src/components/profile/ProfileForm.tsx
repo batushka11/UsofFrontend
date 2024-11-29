@@ -1,15 +1,8 @@
 import { FormControl, FormLabel, Grid, GridItem, Input } from '@chakra-ui/react'
-import { useState } from 'react'
 import { useAppSelector } from '../../hooks/reduxHooks'
 
 const ProfileForm: React.FC = () => {
 	const { user } = useAppSelector((state: any) => state.auth)
-	const [formData, setFormData] = useState({
-		login: user.login,
-		fullname: user.fullname,
-		email: user.email,
-		password: ''
-	})
 
 	return (
 		<Grid templateColumns="repeat(2, 1fr)" gap="4">
@@ -21,9 +14,8 @@ const ProfileForm: React.FC = () => {
 						borderWidth="2px"
 						borderColor="brand.100"
 						placeholder="Enter login"
-						value={formData.login}
+						value={user.login}
 						_hover={{ borderColor: 'brand.500' }}
-						onChange={e => setFormData({ ...formData, login: e.target.value })}
 					/>
 				</FormControl>
 			</GridItem>
@@ -36,11 +28,8 @@ const ProfileForm: React.FC = () => {
 						borderWidth="2px"
 						borderColor="brand.100"
 						placeholder="Enter full name"
-						value={formData.fullname}
+						value={user.fullname}
 						_hover={{ borderColor: 'brand.500' }}
-						onChange={e =>
-							setFormData({ ...formData, fullname: e.target.value })
-						}
 					/>
 				</FormControl>
 			</GridItem>
@@ -53,9 +42,8 @@ const ProfileForm: React.FC = () => {
 						borderWidth="2px"
 						borderColor="brand.100"
 						placeholder="Enter email"
-						value={formData.email}
+						value={user.email}
 						_hover={{ borderColor: 'brand.500' }}
-						onChange={e => setFormData({ ...formData, email: e.target.value })}
 					/>
 				</FormControl>
 			</GridItem>

@@ -9,6 +9,7 @@ import {
 } from '@chakra-ui/react'
 import { useNavigate } from 'react-router-dom'
 import { useAppSelector } from '../../hooks/reduxHooks'
+import UpdateProfile from './UpdateProfilePopover'
 
 const ProfileFooter: React.FC = () => {
 	const navigate = useNavigate()
@@ -48,13 +49,7 @@ const ProfileFooter: React.FC = () => {
 				>
 					Back to home
 				</Button>
-				<Button
-					bg="brand.500"
-					color="brand.100"
-					_hover={{ bg: 'brand.400', color: 'bg.50' }}
-				>
-					Update Profile
-				</Button>
+				<UpdateProfile />
 			</Stack>
 		</Box>
 	)
