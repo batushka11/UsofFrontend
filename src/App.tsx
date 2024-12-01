@@ -1,6 +1,8 @@
 import { Route, Routes } from 'react-router-dom'
+import CategoryBoard from './components/categories/CategoryBoard'
 import BookmarkPostsBoard from './components/posts/post-boards/BookmarkPostBoard'
 import PostsBoard from './components/posts/post-boards/PostBoard'
+import PostByCategoryBoard from './components/posts/post-boards/PostByCategory'
 import SubscribesPostsBoard from './components/posts/post-boards/SubscribesPostBoard'
 import UserPostsBoard from './components/posts/post-boards/UserPostBoars'
 import CreatePost from './components/posts/post-operations/PostCreate'
@@ -78,6 +80,22 @@ function App() {
 				element={
 					<ProtectedRoute>
 						<Page content=<CreatePost /> height="100vh" />
+					</ProtectedRoute>
+				}
+			/>
+			<Route
+				path="/categories"
+				element={
+					<ProtectedRoute>
+						<Page content=<CategoryBoard /> height="100vh" />
+					</ProtectedRoute>
+				}
+			/>
+			<Route
+				path="/category/:id/posts"
+				element={
+					<ProtectedRoute>
+						<Page content=<PostByCategoryBoard /> height="100vh" />
 					</ProtectedRoute>
 				}
 			/>

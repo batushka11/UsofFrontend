@@ -64,7 +64,7 @@ const LikeDislikeComment: React.FC<any> = ({ comment, post }) => {
 	return (
 		<Flex flexDirection="row" alignItems="center" marginRight={4}>
 			<IconButton
-				isDisabled={post.status !== 'ACTIVE'}
+				isDisabled={post.status === 'INACTIVE'}
 				aria-label="Upvote"
 				icon={<TiArrowUpOutline />}
 				color={typeReaction === 'LIKE' ? 'green.500' : 'brand.400'}
@@ -76,7 +76,7 @@ const LikeDislikeComment: React.FC<any> = ({ comment, post }) => {
 				{rating}
 			</Text>
 			<IconButton
-				isDisabled={post.status !== 'ACTIVE'}
+				isDisabled={post.status === 'INACTIVE'}
 				aria-label="Downvote"
 				icon={<TiArrowDownOutline />}
 				color={typeReaction === 'DISLIKE' ? 'red.500' : 'brand.400'}

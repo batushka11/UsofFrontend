@@ -30,7 +30,9 @@ import DeleteEditSectionComment from './DeleteEditSectionComment'
 import LikeDislikeComment from './LikeDislikeComment'
 import useComments from './useComments'
 
-const CommentsSection: React.FC<any> = post => {
+const CommentsSection: React.FC<{ post: { status: string; id: string } }> = ({
+	post
+}) => {
 	const { user } = useAppSelector(state => state.auth)
 	const [isLoading, setLoading] = useState(false)
 	const { id } = useParams<{ id: string }>()
@@ -86,7 +88,7 @@ const CommentsSection: React.FC<any> = post => {
 					Comments ({totalComments})
 				</Text>
 				<Button
-					isDisabled={post.status !== 'ACTIVE'}
+					isDisabled={post.status === 'INACTIVE'}
 					onClick={onOpen}
 					bg="brand.500"
 					color="brand.0"
