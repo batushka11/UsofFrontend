@@ -51,11 +51,13 @@ const SubscribesPostsBoard: React.FC = () => {
 							<PostCard key={post.id} post={post} />
 						))}
 					</SimpleGrid>
-					<Pagination
-						currentPage={currentPage}
-						totalPages={totalPages}
-						onPageChange={page => setCurrentPage(page)}
-					/>
+					{totalPages > 1 && (
+						<Pagination
+							currentPage={currentPage}
+							totalPages={totalPages}
+							onPageChange={page => setCurrentPage(page)}
+						/>
+					)}
 				</>
 			)}
 		</Box>

@@ -34,14 +34,6 @@ const Header: React.FC = () => {
 	const toast = useToast()
 	const navigate = useNavigate()
 	const { colorMode, toggleColorMode } = useColorMode()
-	const getRandomColor = () => {
-		const letters = '0123456789ABCDEF'
-		let color = '#'
-		for (let i = 0; i < 6; i++) {
-			color += letters[Math.floor(Math.random() * 16)]
-		}
-		return color
-	}
 
 	const handleLogout = async () => {
 		await apiClient.post('/auth/logout')
@@ -111,7 +103,6 @@ const Header: React.FC = () => {
 									size="lg"
 									src={user.avatarPath}
 									boxShadow="md"
-									borderColor={getRandomColor()}
 									borderWidth="3px"
 									mr="4"
 								>

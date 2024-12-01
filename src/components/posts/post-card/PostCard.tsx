@@ -1,7 +1,10 @@
 import { Box, Stack, Tag, Text, Tooltip } from '@chakra-ui/react'
+import MarkdownIt from 'markdown-it'
 import { Post } from '../FetchPosts'
 import PostCardFooter from './PostCardFooter'
 import PostCardHeader from './PostCardHeader'
+
+const mdParser = new MarkdownIt()
 
 const PostCard: React.FC<{ post: Post }> = ({ post }) => {
 	return (
@@ -18,9 +21,15 @@ const PostCard: React.FC<{ post: Post }> = ({ post }) => {
 			<Text fontSize="xl" fontWeight="bold" color="brand.400" mb="2" mt="2">
 				{post.title}
 			</Text>
-			<Text noOfLines={3} fontSize="md" color="brand.500" mb="4">
-				{post.content}
-			</Text>
+
+			<Box
+				bg="brand.0"
+				mb="4"
+				dangerouslySetInnerHTML={{
+					__html: mdParser.render(post?.content || '')
+				}}
+				noOfLines={4}
+			/>
 			<Stack direction="row" spacing="2" mb="4">
 				{post.categories.map((category, index) => (
 					<Tooltip

@@ -2,9 +2,15 @@ import { Flex, Icon, Text } from '@chakra-ui/react'
 import { AiFillFire } from 'react-icons/ai'
 import { FaBook, FaPoop } from 'react-icons/fa'
 import { FiMessageCircle } from 'react-icons/fi'
+import { useNavigate } from 'react-router-dom'
 import { Post } from '../FetchPosts'
 
 const PostCardFooter: React.FC<{ post: Post }> = ({ post }) => {
+	const navigate = useNavigate()
+	const handleReadMoreClick = () => {
+		navigate(`/post/${post.id}`)
+	}
+
 	return (
 		<Flex align="center" mt="4" justify="space-between" ml="2">
 			<Flex
@@ -24,6 +30,7 @@ const PostCardFooter: React.FC<{ post: Post }> = ({ post }) => {
 						color: 'brand.500',
 						cursor: 'pointer'
 					}}
+					onClick={() => handleReadMoreClick()}
 				>
 					Read more
 				</Text>

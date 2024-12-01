@@ -36,6 +36,7 @@ const LoginForm: React.FC = () => {
 			navigate('/home')
 		}
 		if (error) {
+			console.log(error)
 			toast({
 				title: 'Login failed',
 				description: error,

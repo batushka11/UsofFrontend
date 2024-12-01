@@ -5,6 +5,19 @@ interface Category {
 	description: string
 }
 
+interface Comments {
+	id: number
+	author: {
+		login: string
+		avatar: string
+		activity: string
+	}
+	content: string
+	createdAt: string
+	updateAt: string
+	rating: number
+}
+
 export interface Post {
 	id: number
 	title: string
@@ -13,10 +26,12 @@ export interface Post {
 	rating: number
 	status: string
 	author: {
+		id: number
 		login: string
 		avatar: string
 		activity: string
 	}
+	comments: Comments[]
 	categories: Category[]
 	commentsCount: number
 	isBookmarked: boolean
@@ -49,6 +64,7 @@ const fetchPostsWithDetails = async (
 				return {
 					...post,
 					author: {
+						id: author.data.id,
 						login: author.data.login,
 						avatar: author.data.avatarPath,
 						activity: author.data.lastActive

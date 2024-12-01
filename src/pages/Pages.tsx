@@ -7,6 +7,7 @@ interface PageType {
 }
 
 const Page: React.FC<PageType> = ({ content, height }) => {
+	window.scrollTo({ top: 0 })
 	return (
 		<Flex direction="column" minH="100vh" bg="brand.50">
 			<SidebarWithHeader content={content} height={height} />

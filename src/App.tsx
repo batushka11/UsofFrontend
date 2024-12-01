@@ -3,6 +3,8 @@ import BookmarkPostsBoard from './components/posts/post-boards/BookmarkPostBoard
 import PostsBoard from './components/posts/post-boards/PostBoard'
 import SubscribesPostsBoard from './components/posts/post-boards/SubscribesPostBoard'
 import UserPostsBoard from './components/posts/post-boards/UserPostBoars'
+import CreatePost from './components/posts/post-operations/PostCreate'
+import PostPageBoard from './components/posts/post-page-components/PostPageBoard'
 import ProfileBoard from './components/profile/ProfileBoard'
 import ProtectedRoute from './helpers/ProtectedRoute'
 import ConfirmAccountPage from './pages/auth/ConfirmAccountPage'
@@ -60,6 +62,22 @@ function App() {
 				element={
 					<ProtectedRoute>
 						<Page content=<UserPostsBoard /> height="100vh" />
+					</ProtectedRoute>
+				}
+			/>
+			<Route
+				path="/post/:id"
+				element={
+					<ProtectedRoute>
+						<Page content=<PostPageBoard /> height="100vh" />
+					</ProtectedRoute>
+				}
+			/>
+			<Route
+				path="/create-post"
+				element={
+					<ProtectedRoute>
+						<Page content=<CreatePost /> height="100vh" />
 					</ProtectedRoute>
 				}
 			/>

@@ -33,7 +33,29 @@ apiClient.interceptors.request.use(
 )
 
 apiClient.interceptors.response.use(
-	response => response,
+	async response => {
+		const user = store.getState().auth.user
+
+		try {
+			const token = store.getState().auth.token
+
+			const responseUser = await axios.get(
+				`${process.env.REACT_APP_API_BASE_URL}/users/${user.id}`,
+				{
+					withCredentials: true,
+					headers: {
+						Authorization: `Bearer ${token}`
+					}
+				}
+			)
+
+			localStorage.setItem('user', JSON.stringify(responseUser.data))
+			store.dispatch(updateUser(responseUser.data))
+		} catch (err) {
+			console.error(err)
+		}
+		return response
+	},
 	async error => {
 		const originalRequest = error.config
 

@@ -3,21 +3,23 @@ import {
 	Button,
 	FormControl,
 	FormLabel,
+	Icon,
 	Input,
-	Popover,
-	PopoverArrow,
-	PopoverBody,
-	PopoverCloseButton,
-	PopoverContent,
-	PopoverTrigger,
+	Modal,
+	ModalBody,
+	ModalCloseButton,
+	ModalContent,
+	ModalFooter,
+	ModalHeader,
+	ModalOverlay,
 	Stack,
+	useDisclosure,
 	useToast
 } from '@chakra-ui/react'
 import { useState } from 'react'
+import { FaEdit } from 'react-icons/fa'
 import apiClient from '../../helpers/axios'
 import { useAppSelector } from '../../hooks/reduxHooks'
-import { updateUser } from '../../redux/auth/authSlice'
-import store from '../../redux/store'
 
 const UpdateProfile = () => {
 	const toast = useToast()
@@ -27,10 +29,7 @@ const UpdateProfile = () => {
 		login: user.login,
 		fullname: user.fullname
 	})
-	const [isOpen, setIsOpen] = useState(false)
-
-	const openPopover = () => setIsOpen(true)
-	const closePopover = () => setIsOpen(false)
+	const { isOpen, onOpen, onClose } = useDisclosure()
 
 	const updateUserInfo = async () => {
 		setLoading(true)
@@ -40,17 +39,14 @@ const UpdateProfile = () => {
 				...(formData.login !== user.login && { login: formData.login })
 			}
 
-			const response = await apiClient.patch(`/users/${user.id}`, data)
-			localStorage.setItem('user', JSON.stringify(response.data))
-			store.dispatch(updateUser(response.data))
-
+			await apiClient.patch(`/users/${user.id}`, data)
 			toast({
-				title: 'Update profile successfully',
+				title: 'Profile updated successfully',
 				status: 'success',
 				duration: 3000,
 				isClosable: true
 			})
-			closePopover()
+			onClose()
 		} catch (error: any) {
 			toast({
 				title: error.response?.data?.message || 'An error occurred',
@@ -65,47 +61,26 @@ const UpdateProfile = () => {
 
 	return (
 		<>
-			{isOpen && (
-				<Box
-					position="fixed"
-					top="0"
-					left="0"
-					width="100%"
-					height="100%"
-					bg="rgba(0, 0, 0, 0.5)"
-					zIndex="overlay"
-					onClick={closePopover}
+			<Box>
+				<Icon
+					as={FaEdit}
+					fontSize="32px"
+					color="brand.500"
+					transition="background-color 0.3s ease, color 0.3s ease"
+					onClick={onOpen}
+					cursor="pointer"
 				/>
-			)}
+			</Box>
 
-			<Popover isOpen={isOpen} onClose={closePopover} placement="top" isLazy>
-				<PopoverTrigger>
-					<Button
-						bg="brand.500"
-						color="brand.100"
-						_hover={{ bg: 'brand.400', color: 'brand.50' }}
-						_active={{ bg: 'brand.300', color: 'brand.0' }}
-						transition="background-color 0.3s ease, color 0.3s ease"
-						onClick={openPopover}
-					>
-						Update Profile
-					</Button>
-				</PopoverTrigger>
-				<PopoverContent
-					borderRadius="md"
-					boxShadow="lg"
-					zIndex="popover"
-					bg="brand.50"
-				>
-					<PopoverArrow />
-					<PopoverCloseButton />
-					<PopoverBody>
+			<Modal isOpen={isOpen} onClose={onClose}>
+				<ModalOverlay />
+				<ModalContent bg="brand.50" borderRadius="md">
+					<ModalHeader>Update Profile</ModalHeader>
+					<ModalCloseButton />
+					<ModalBody>
 						<Stack
 							as="form"
 							spacing={4}
-							padding={4}
-							borderRadius="md"
-							bg="brand.50"
 							onSubmit={e => {
 								e.preventDefault()
 								updateUserInfo()
@@ -145,23 +120,32 @@ const UpdateProfile = () => {
 									}
 								/>
 							</FormControl>
-							<Box display="flex" justifyContent="center" mt="4">
-								<Button
-									bg="brand.400"
-									color="white"
-									_hover={{ bg: 'brand.500' }}
-									_active={{ bg: 'brand.300' }}
-									type="submit"
-									transition="background-color 0.3s ease, color 0.3s ease"
-									isLoading={loading}
-								>
-									Update
-								</Button>
-							</Box>
 						</Stack>
-					</PopoverBody>
-				</PopoverContent>
-			</Popover>
+					</ModalBody>
+
+					<ModalFooter>
+						<Button
+							bg="brand.400"
+							color="white"
+							_hover={{ bg: 'brand.500' }}
+							_active={{ bg: 'brand.300' }}
+							onClick={updateUserInfo}
+							isLoading={loading}
+							mr={3}
+						>
+							Update
+						</Button>
+						<Button
+							bg="gray.300"
+							color="black"
+							_hover={{ bg: 'gray.400' }}
+							onClick={onClose}
+						>
+							Cancel
+						</Button>
+					</ModalFooter>
+				</ModalContent>
+			</Modal>
 		</>
 	)
 }

@@ -1,6 +1,7 @@
 import {
 	Box,
 	Button,
+	Flex,
 	FormControl,
 	FormLabel,
 	HStack,
@@ -9,7 +10,8 @@ import {
 } from '@chakra-ui/react'
 import { useNavigate } from 'react-router-dom'
 import { useAppSelector } from '../../hooks/reduxHooks'
-import UpdateProfile from './UpdateProfilePopover'
+import DeleteProfile from './DeleteProfile'
+import UpdateProfile from './UpdateProfile'
 
 const ProfileFooter: React.FC = () => {
 	const navigate = useNavigate()
@@ -45,11 +47,14 @@ const ProfileFooter: React.FC = () => {
 					bg="brand.200"
 					color="brand.400"
 					_hover={{ bg: 'brand.300', color: 'bg.500' }}
-					onClick={() => navigate('/home')}
+					onClick={() => navigate(-1)}
 				>
-					Back to home
+					Back
 				</Button>
-				<UpdateProfile />
+				<Flex direction="row">
+					<UpdateProfile />
+					<DeleteProfile />
+				</Flex>
 			</Stack>
 		</Box>
 	)

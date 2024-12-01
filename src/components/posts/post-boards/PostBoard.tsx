@@ -40,7 +40,7 @@ const PostsBoard: React.FC = () => {
 				setLoading(false)
 			}
 		}
-
+		window.scrollTo({ top: 0 })
 		fetchPosts()
 	}, [currentPage, toast])
 
@@ -60,11 +60,13 @@ const PostsBoard: React.FC = () => {
 							<PostCard key={post.id} post={post} />
 						))}
 					</SimpleGrid>
-					<Pagination
-						currentPage={currentPage}
-						totalPages={totalPages}
-						onPageChange={page => setCurrentPage(page)}
-					/>
+					{totalPages > 1 && (
+						<Pagination
+							currentPage={currentPage}
+							totalPages={totalPages}
+							onPageChange={page => setCurrentPage(page)}
+						/>
+					)}
 				</>
 			)}
 		</Box>

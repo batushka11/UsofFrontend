@@ -33,7 +33,7 @@ const UserPostsBoard: React.FC = () => {
 		}
 
 		fetchPosts()
-	}, [currentPage, user])
+	}, [currentPage, user.id])
 
 	return (
 		<Box>
@@ -53,11 +53,13 @@ const UserPostsBoard: React.FC = () => {
 							<PostCard key={post.id} post={post} />
 						))}
 					</SimpleGrid>
-					<Pagination
-						currentPage={currentPage}
-						totalPages={totalPages}
-						onPageChange={page => setCurrentPage(page)}
-					/>
+					{totalPages > 1 && (
+						<Pagination
+							currentPage={currentPage}
+							totalPages={totalPages}
+							onPageChange={page => setCurrentPage(page)}
+						/>
+					)}
 				</>
 			)}
 		</Box>

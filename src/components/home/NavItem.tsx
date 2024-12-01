@@ -33,11 +33,12 @@ const NavItem: React.FC<NavItemProps> = ({
 					color: 'white'
 				}}
 				color="brand.400"
+				fontSize="18"
 			>
 				{icon && (
 					<Icon
 						mr="4"
-						fontSize="16"
+						fontSize="24"
 						_groupHover={{
 							color: 'white'
 						}}
