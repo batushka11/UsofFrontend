@@ -11,7 +11,6 @@ import {
 	ModalBody,
 	ModalCloseButton,
 	ModalContent,
-	ModalFooter,
 	ModalHeader,
 	ModalOverlay,
 	useDisclosure,
@@ -24,6 +23,7 @@ import MdEditor from 'react-markdown-editor-lite'
 import 'react-markdown-editor-lite/lib/index.css'
 import Select from 'react-select'
 import apiClient from '../../../helpers/axios'
+import { useAppSelector } from '../../../hooks/reduxHooks'
 
 const mdParser = new MarkdownIt()
 
@@ -41,6 +41,7 @@ interface Category {
 }
 
 const UpdatePost: React.FC<any> = ({ post, initialSelectedCategories }) => {
+	const { user } = useAppSelector(state => state.auth)
 	const { isOpen, onOpen, onClose } = useDisclosure()
 	const [loading, setLoading] = useState<boolean>(false)
 	const { register, handleSubmit, reset } = useForm<PostFormData>()
@@ -76,7 +77,15 @@ const UpdatePost: React.FC<any> = ({ post, initialSelectedCategories }) => {
 				content: markdown,
 				categories: selectedCategories.map(category => category.title)
 			}
-
+			if (postData.title.trim() === '' || postData.content.trim() === '') {
+				toast({
+					title: 'Title or content cannot contain only whitespaces',
+					status: 'error',
+					duration: 3000,
+					isClosable: true
+				})
+				return
+			}
 			await apiClient.patch(`/posts/${post.id}`, postData)
 
 			toast({
@@ -85,10 +94,6 @@ const UpdatePost: React.FC<any> = ({ post, initialSelectedCategories }) => {
 				duration: 3000,
 				isClosable: true
 			})
-
-			reset()
-			onClose()
-			window.location.reload()
 		} catch (error: any) {
 			toast({
 				title: error?.response?.data?.message || 'Failed to update post',
@@ -98,6 +103,9 @@ const UpdatePost: React.FC<any> = ({ post, initialSelectedCategories }) => {
 			})
 		} finally {
 			setLoading(false)
+			reset()
+			onClose()
+			window.location.reload()
 		}
 	}
 
@@ -123,73 +131,77 @@ const UpdatePost: React.FC<any> = ({ post, initialSelectedCategories }) => {
 					<ModalCloseButton />
 					<ModalBody>
 						<form onSubmit={handleSubmit(onSubmit)}>
-							<FormControl mb={4}>
-								<FormLabel color="brand.300">Title</FormLabel>
-								<Input
-									defaultValue={post.title}
-									{...register('title', { required: true })}
-									placeholder="Enter the post title"
-									size="lg"
-									borderColor="brand.200"
-									_focus={{
-										borderColor: 'brand.400',
-										boxShadow: '0 0 0 2px #7F5539'
-									}}
-								/>
-							</FormControl>
+							{user.id === post?.authorId && (
+								<>
+									<FormControl mb={4}>
+										<FormLabel color="brand.300">Title</FormLabel>
+										<Input
+											defaultValue={post?.title}
+											{...register('title', { required: true })}
+											placeholder="Enter the post title"
+											size="lg"
+											borderColor="brand.200"
+											_focus={{
+												borderColor: 'brand.400',
+												boxShadow: '0 0 0 2px #7F5539'
+											}}
+										/>
+									</FormControl>
 
-							<FormControl mb={4}>
-								<FormLabel color="brand.300">Categories</FormLabel>
-								<Box border="1px" borderColor="brand.200" borderRadius="md">
-									<Select
-										isMulti
-										options={categories.map(category => ({
-											value: category.id,
-											label: category.title
-										}))}
-										value={selectedCategories.map(category => ({
-											value: category.id,
-											label: category.title
-										}))}
-										onChange={selectedOptions =>
-											setSelectedCategories(
-												selectedOptions.map(option => ({
-													id: option.value,
-													title: option.label,
-													description: ''
-												}))
-											)
-										}
-										placeholder="Select categories"
-										styles={{
-											control: base => ({
-												...base,
-												borderColor: '#7F5539',
-												boxShadow: '0 0 0 2px #7F5539',
-												background: 'whitesmoke'
-											})
-										}}
-									/>
-								</Box>
-							</FormControl>
+									<FormControl mb={4}>
+										<FormLabel color="brand.300">Categories</FormLabel>
+										<Box border="1px" borderColor="brand.200" borderRadius="md">
+											<Select
+												isMulti
+												options={categories.map(category => ({
+													value: category.id,
+													label: category.title
+												}))}
+												value={selectedCategories.map(category => ({
+													value: category.id,
+													label: category.title
+												}))}
+												onChange={selectedOptions =>
+													setSelectedCategories(
+														selectedOptions.map(option => ({
+															id: option.value,
+															title: option.label,
+															description: ''
+														}))
+													)
+												}
+												placeholder="Select categories"
+												styles={{
+													control: base => ({
+														...base,
+														borderColor: '#7F5539',
+														boxShadow: '0 0 0 2px #7F5539',
+														background: 'whitesmoke'
+													})
+												}}
+											/>
+										</Box>
+									</FormControl>
 
-							<FormControl mb={4}>
-								<FormLabel color="brand.300">Content</FormLabel>
-								<Box
-									border="1px"
-									borderColor="brand.200"
-									borderRadius="md"
-									p={4}
-									bg="brand.100"
-								>
-									<MdEditor
-										value={markdown}
-										renderHTML={text => mdParser.render(text)}
-										onChange={({ text }) => setMarkdown(text)}
-										style={{ height: '400px' }}
-									/>
-								</Box>
-							</FormControl>
+									<FormControl mb={4}>
+										<FormLabel color="brand.300">Content</FormLabel>
+										<Box
+											border="1px"
+											borderColor="brand.200"
+											borderRadius="md"
+											p={4}
+											bg="brand.100"
+										>
+											<MdEditor
+												value={markdown}
+												renderHTML={text => mdParser.render(text)}
+												onChange={({ text }) => setMarkdown(text)}
+												style={{ height: '400px' }}
+											/>
+										</Box>
+									</FormControl>
+								</>
+							)}
 
 							<FormControl mb={4}>
 								<FormLabel color="brand.300">Status</FormLabel>
@@ -205,7 +217,9 @@ const UpdatePost: React.FC<any> = ({ post, initialSelectedCategories }) => {
 										style={{
 											width: '100%',
 											padding: '8px',
-											borderRadius: '8px'
+											borderRadius: '8px',
+											border: '1px solid #7F5539',
+											backgroundColor: 'whitesmoke'
 										}}
 									>
 										<option value="ACTIVE">Active</option>
@@ -228,16 +242,6 @@ const UpdatePost: React.FC<any> = ({ post, initialSelectedCategories }) => {
 							</Button>
 						</form>
 					</ModalBody>
-					<ModalFooter>
-						<Button
-							onClick={onClose}
-							bg="gray.300"
-							_hover={{ bg: 'gray.400' }}
-							_active={{ bg: 'gray.500' }}
-						>
-							Cancel
-						</Button>
-					</ModalFooter>
 				</ModalContent>
 			</Modal>
 		</>

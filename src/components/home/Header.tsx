@@ -3,7 +3,6 @@ import {
 	Avatar,
 	AvatarBadge,
 	Box,
-	Divider,
 	Flex,
 	HStack,
 	Icon,
@@ -20,6 +19,7 @@ import {
 	useToast,
 	VStack
 } from '@chakra-ui/react'
+import { useState } from 'react'
 import { FaStar } from 'react-icons/fa'
 import { FiSearch } from 'react-icons/fi'
 import { useNavigate } from 'react-router-dom'
@@ -34,6 +34,32 @@ const Header: React.FC = () => {
 	const toast = useToast()
 	const navigate = useNavigate()
 	const { colorMode, toggleColorMode } = useColorMode()
+
+	const [query, setQuery] = useState('')
+
+	const handleSearch = () => {
+		if (query === 'Categories') {
+			navigate('/categories')
+		} else if (query === 'Bookmarks') {
+			navigate('/bookmarks/1')
+		} else if (query === 'Subscribes') {
+			navigate('/subscribes/1')
+		} else if (query === 'My posts') {
+			navigate('/my-posts/1')
+		} else if (query === 'Posts') {
+			navigate('/home/1')
+		} else if (query === 'Create') {
+			navigate('/create-post')
+		} else if (query === 'Home') {
+			navigate('/home/1')
+		} else if (query === 'Users') {
+			navigate('/users/1')
+		} else if (query === 'Profile') {
+			navigate('/my-profile')
+		} else {
+			navigate('/not-found')
+		}
+	}
 
 	const handleLogout = async () => {
 		await apiClient.post('/auth/logout')
@@ -80,6 +106,13 @@ const Header: React.FC = () => {
 						bg="brand.50"
 						borderColor="brand.200"
 						_focus={{ borderColor: 'brand.300' }}
+						value={query}
+						onChange={e => setQuery(e.target.value)}
+						onKeyPress={e => {
+							if (e.key === 'Enter') {
+								handleSearch()
+							}
+						}}
 					/>
 				</InputGroup>
 			</Box>
@@ -128,21 +161,22 @@ const Header: React.FC = () => {
 								</VStack>
 							</HStack>
 						</MenuButton>
-						<MenuList bg="brand.50" borderColor="brand.50">
+						<MenuList bg="brand.200" borderColor="brand.50">
 							<MenuItem
-								bg="brand.50"
+								bg="brand.200"
 								color="brand.500"
 								_hover={{ bg: 'brand.100' }}
 								onClick={handleProfile}
+								fontSize="18px"
 							>
 								Profile
 							</MenuItem>
-							<Divider borderColor="brand.500" borderWidth="2px" />
 							<MenuItem
-								bg="brand.50"
+								bg="brand.200"
 								color="brand.500"
 								_hover={{ bg: 'brand.100' }}
 								onClick={handleLogout}
+								fontSize="18px"
 							>
 								Sign Out
 							</MenuItem>

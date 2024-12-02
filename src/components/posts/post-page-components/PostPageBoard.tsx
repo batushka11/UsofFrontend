@@ -1,5 +1,6 @@
 import {
 	Box,
+	Button,
 	Center,
 	Divider,
 	Flex,
@@ -9,10 +10,12 @@ import {
 	Tag,
 	Tooltip
 } from '@chakra-ui/react'
-import MarkdownIt from 'markdown-it'
 import React, { useEffect, useState } from 'react'
-import { useParams } from 'react-router-dom'
+import Markdown from 'react-markdown'
+import { useNavigate, useParams } from 'react-router-dom'
+import remarkGfm from 'remark-gfm'
 import apiClient from '../../../helpers/axios'
+import { chakraMarkdownComponents } from '../../../helpers/MarkDownHelper'
 import { useAppSelector } from '../../../hooks/reduxHooks'
 import MenuActions from '../post-card/PostCardMenuAction'
 import DeletePost from '../post-operations/PostDelete'
@@ -30,9 +33,8 @@ interface Category {
 	}
 }
 
-const mdParser = new MarkdownIt()
-
 const PostPageBoard: React.FC = () => {
+	const navigate = useNavigate()
 	const { user } = useAppSelector(state => state.auth)
 	const [post, setPost] = useState<any>(null)
 	const [author, setAuthor] = useState<any>(null)
@@ -72,6 +74,14 @@ const PostPageBoard: React.FC = () => {
 
 	return (
 		<Box maxWidth="1200px" margin="0 auto" padding={6}>
+			<Button
+				bg="brand.200"
+				color="brand.400"
+				_hover={{ bg: 'brand.300', color: 'bg.500' }}
+				onClick={() => navigate(-1)}
+			>
+				Back
+			</Button>
 			<PostPageHeader author={author} post={post} />
 			<Box
 				width="100%"
@@ -104,15 +114,14 @@ const PostPageBoard: React.FC = () => {
 						</Tooltip>
 					))}
 				</Stack>
-				<Box
-					ml="4"
-					mr="4"
-					bg="brand.50"
-					mb="4"
-					dangerouslySetInnerHTML={{
-						__html: mdParser.render(post?.content || '')
-					}}
-				/>
+				<Box ml="4" mr="4" bg="brand.50" mb="4">
+					<Markdown
+						remarkPlugins={[remarkGfm]}
+						components={chakraMarkdownComponents}
+					>
+						{post?.content}
+					</Markdown>
+				</Box>
 				<Flex justifyContent="space-between" flexDirection="row">
 					<LikeDislikePost post={post} />
 					{(post.authorId === user.id || user.role === 'ADMIN') && (

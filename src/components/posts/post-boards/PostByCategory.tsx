@@ -1,6 +1,14 @@
-import { Box, Flex, SimpleGrid, Spinner, Text } from '@chakra-ui/react'
+import {
+	Box,
+	Flex,
+	HStack,
+	Select,
+	SimpleGrid,
+	Spinner,
+	Text
+} from '@chakra-ui/react'
 import { useEffect, useState } from 'react'
-import { useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import apiClient from '../../../helpers/axios'
 import { Category } from '../../categories/CategoryBoard'
 import Pagination from '../../home/Pagination'
@@ -8,23 +16,24 @@ import fetchPostsWithDetails, { Post } from '../FetchPosts'
 import PostCard from '../post-card/PostCard'
 
 const PostByCategoryBoard: React.FC = () => {
+	const navigate = useNavigate()
 	const [category, setCategory] = useState<Category>()
 	const [posts, setPosts] = useState<Post[]>([])
 	const [loading, setLoading] = useState(false)
-	const [currentPage, setCurrentPage] = useState(1)
 	const [totalPages, setTotalPages] = useState(1)
 	const { id } = useParams<{ id: string }>()
+	const { page } = useParams<{ page: string }>()
+	const [size, setSize] = useState<number>(10)
 
 	useEffect(() => {
 		const fetchPosts = async () => {
 			setLoading(true)
 			try {
 				const response = await apiClient.get(
-					`/categories/${id}/posts?page=${currentPage}&limit=10`
+					`/categories/${id}/posts?page=${page}&size=${size}`
 				)
 				const detailedPosts = await fetchPostsWithDetails(
-					currentPage,
-					`/categories/${id}/posts`
+					`/categories/${id}/posts?page=${page}&size=${size}`
 				)
 
 				const responseCategory = await apiClient.get(`/categories/${id}`)
@@ -32,25 +41,48 @@ const PostByCategoryBoard: React.FC = () => {
 				setPosts(detailedPosts)
 				setTotalPages(response.data.totalPages)
 			} catch (error: any) {
+				console.error('Error fetching posts:', error)
 			} finally {
 				setLoading(false)
 			}
 		}
-
+		window.scrollTo({ top: 0 })
 		fetchPosts()
-	}, [currentPage, id])
+	}, [page, id, size])
+
+	const handleSizeChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+		setSize(Number(event.target.value))
+	}
 
 	return (
 		<Box>
-			<Text fontSize="3vh" fontWeight="extrabold" mb="2">
+			<Text fontSize="3vh" fontWeight="extrabold" mb="4">
 				Posts by category: {category?.title}
 			</Text>
+			<HStack mb="4" justifyContent="flex-end" alignItems="center">
+				<Text fontWeight="bold" fontSize="lg">
+					Items per page:
+				</Text>
+				<Select
+					value={size}
+					onChange={handleSizeChange}
+					width="100px"
+					size="sm"
+					aria-label="Select number of items per page"
+				>
+					<option value={5}>5</option>
+					<option value={10}>10</option>
+					<option value={15}>15</option>
+					<option value={20}>20</option>
+					<option value={25}>25</option>
+				</Select>
+			</HStack>
 			{loading ? (
 				<Flex justify="center" align="center" minH="200px">
 					<Spinner size="xl" />
 				</Flex>
 			) : posts.length < 1 ? (
-				<Text>None one posts associated with this category </Text>
+				<Text>None of the posts are associated with this category</Text>
 			) : (
 				<>
 					<SimpleGrid columns={1} spacing="6">
@@ -60,9 +92,9 @@ const PostByCategoryBoard: React.FC = () => {
 					</SimpleGrid>
 					{totalPages > 1 && (
 						<Pagination
-							currentPage={currentPage}
+							currentPage={Number(page)}
 							totalPages={totalPages}
-							onPageChange={page => setCurrentPage(page)}
+							onPageChange={page => navigate(`/category/${id}/posts/${page}`)}
 						/>
 					)}
 				</>

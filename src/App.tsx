@@ -8,6 +8,8 @@ import UserPostsBoard from './components/posts/post-boards/UserPostBoars'
 import CreatePost from './components/posts/post-operations/PostCreate'
 import PostPageBoard from './components/posts/post-page-components/PostPageBoard'
 import ProfileBoard from './components/profile/ProfileBoard'
+import UserProfileBoard from './components/users/UserProfile/UserProfileBorder'
+import UsersBoard from './components/users/UsersBoard'
 import ProtectedRoute from './helpers/ProtectedRoute'
 import ConfirmAccountPage from './pages/auth/ConfirmAccountPage'
 import LoginPage from './pages/auth/LoginPage'
@@ -28,7 +30,7 @@ function App() {
 			<Route path="/confirmation/:token" element={<ConfirmAccountPage />} />
 			<Route path="/password-reset/:token" element={<NewPasswordPage />} />
 			<Route
-				path="/home"
+				path="/home/:id"
 				element={
 					<ProtectedRoute>
 						<Page content=<PostsBoard /> height="100vh" />
@@ -44,7 +46,7 @@ function App() {
 				}
 			/>
 			<Route
-				path="/bookmarks"
+				path="/bookmarks/:id"
 				element={
 					<ProtectedRoute>
 						<Page content=<BookmarkPostsBoard /> height="100vh" />
@@ -52,7 +54,7 @@ function App() {
 				}
 			/>
 			<Route
-				path="/subscribes"
+				path="/subscribes/:id"
 				element={
 					<ProtectedRoute>
 						<Page content=<SubscribesPostsBoard /> height="100vh" />
@@ -60,7 +62,7 @@ function App() {
 				}
 			/>
 			<Route
-				path="/my-posts"
+				path="/my-posts/:id"
 				element={
 					<ProtectedRoute>
 						<Page content=<UserPostsBoard /> height="100vh" />
@@ -92,10 +94,26 @@ function App() {
 				}
 			/>
 			<Route
-				path="/category/:id/posts"
+				path="/category/:id/posts/:page"
 				element={
 					<ProtectedRoute>
 						<Page content=<PostByCategoryBoard /> height="100vh" />
+					</ProtectedRoute>
+				}
+			/>
+			<Route
+				path="/users/:id"
+				element={
+					<ProtectedRoute>
+						<Page content=<UsersBoard /> height="100vh" />
+					</ProtectedRoute>
+				}
+			/>
+			<Route
+				path="/user/:id/posts/:pageN"
+				element={
+					<ProtectedRoute>
+						<Page content=<UserProfileBoard /> height="100vh" />
 					</ProtectedRoute>
 				}
 			/>

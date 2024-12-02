@@ -1,10 +1,15 @@
 import { Box, Stack, Tag, Text, Tooltip } from '@chakra-ui/react'
-import MarkdownIt from 'markdown-it'
+import Markdown from 'react-markdown'
+import remarkGfm from 'remark-gfm'
+import { chakraMarkdownComponents } from '../../../helpers/MarkDownHelper'
 import { Post } from '../FetchPosts'
 import PostCardFooter from './PostCardFooter'
 import PostCardHeader from './PostCardHeader'
 
-const mdParser = new MarkdownIt()
+const truncateText = (text: string, maxLength: number) => {
+	if (!text) return ''
+	return text.length > maxLength ? text.substring(0, maxLength) + '...' : text
+}
 
 const PostCard: React.FC<{ post: Post }> = ({ post }) => {
 	return (
@@ -22,14 +27,15 @@ const PostCard: React.FC<{ post: Post }> = ({ post }) => {
 				{post.title}
 			</Text>
 
-			<Box
-				bg="brand.0"
-				mb="4"
-				dangerouslySetInnerHTML={{
-					__html: mdParser.render(post?.content || '')
-				}}
-				noOfLines={4}
-			/>
+			<Box bg="brand.0" mb="4">
+				<Markdown
+					remarkPlugins={[remarkGfm]}
+					components={chakraMarkdownComponents}
+				>
+					{truncateText(post?.content || '', 300)}
+				</Markdown>
+			</Box>
+
 			<Stack direction="row" spacing="2" mb="4">
 				{post.categories.map((category, index) => (
 					<Tooltip

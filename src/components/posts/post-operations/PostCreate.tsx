@@ -47,6 +47,16 @@ const CreatePost: React.FC = () => {
 				categories: selectedCategories.map(category => category.title)
 			}
 
+			if (postData.title.trim() === '' || postData.content.trim() === '') {
+				toast({
+					title: 'Title or content cannot contain only whitespaces',
+					status: 'error',
+					duration: 3000,
+					isClosable: true
+				})
+				return
+			}
+
 			const response = await apiClient.post('/posts', postData)
 
 			toast({

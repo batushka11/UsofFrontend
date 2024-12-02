@@ -38,11 +38,8 @@ export interface Post {
 	isSubscribed: boolean
 }
 
-const fetchPostsWithDetails = async (
-	page: number,
-	path: string
-): Promise<Post[]> => {
-	const response = await apiClient.get(`${path}?page=${page}&limit=10`)
+const fetchPostsWithDetails = async (path: string): Promise<Post[]> => {
+	const response = await apiClient.get(path)
 	const posts = response.data.posts
 
 	const detailedPosts = await Promise.all(

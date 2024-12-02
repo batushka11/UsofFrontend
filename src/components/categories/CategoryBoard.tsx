@@ -29,6 +29,7 @@ export interface Category {
 	id: number
 	title: string
 	description: string
+	createdAt: string
 }
 
 interface FormData {
@@ -39,7 +40,10 @@ interface FormData {
 const CategoryBoard: React.FC = () => {
 	const { register, handleSubmit, reset } = useForm<FormData>()
 	const [categories, setCategories] = useState<Category[]>([])
+	const [filteredCategories, setFilteredCategories] = useState<Category[]>([])
+	const [searchQuery, setSearchQuery] = useState<string>('')
 	const [loading, setLoading] = useState<boolean>(false)
+	const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('desc')
 	const toast = useToast()
 	const { user } = useAppSelector(state => state.auth)
 
@@ -55,9 +59,10 @@ const CategoryBoard: React.FC = () => {
 			try {
 				const response = await apiClient('/categories')
 				setCategories(response.data)
+				setFilteredCategories(response.data)
 			} catch (error: any) {
 				toast({
-					title: error.response.data.message,
+					title: error.response?.data?.message || 'Error fetching categories',
 					status: 'error',
 					duration: 3000,
 					isClosable: true
@@ -68,6 +73,23 @@ const CategoryBoard: React.FC = () => {
 		}
 		fetchCategories()
 	}, [toast])
+
+	useEffect(() => {
+		const filtered = categories.filter(category =>
+			category.title.toLowerCase().includes(searchQuery.toLowerCase())
+		)
+		setFilteredCategories(filtered)
+	}, [searchQuery, categories])
+
+	const handleSortByDate = () => {
+		const sorted = [...filteredCategories].sort((a, b) => {
+			const dateA = new Date(a.createdAt).getTime()
+			const dateB = new Date(b.createdAt).getTime()
+			return sortOrder === 'asc' ? dateA - dateB : dateB - dateA
+		})
+		setFilteredCategories(sorted)
+		setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc')
+	}
 
 	const onSubmit: SubmitHandler<FormData> = async data => {
 		setLoading(true)
@@ -85,7 +107,7 @@ const CategoryBoard: React.FC = () => {
 			setCategories(response.data)
 		} catch (error: any) {
 			toast({
-				title: error.response.data.message,
+				title: error.response?.data?.message || 'Error creating category',
 				status: 'error',
 				duration: 3000,
 				isClosable: true
@@ -97,28 +119,49 @@ const CategoryBoard: React.FC = () => {
 
 	return (
 		<Box>
-			<Text fontSize="3vh" fontWeight="extrabold" mb="2">
-				Categories
-			</Text>
-			{user.role === 'ADMIN' && (
-				<IconButton
-					aria-label="Create new category"
-					icon={<MdOutlineCreateNewFolder fontSize="30" />}
-					variant="ghost"
-					color="brand.500"
-					_hover={{ color: 'brand.300', bg: 'brand.100' }}
-					onClick={onCreateOpen}
-					fontSize="20px"
-					mb="2"
+			<Flex justify="space-between" mb="4" align="center">
+				<Text fontSize="3vh" fontWeight="extrabold">
+					Categories
+				</Text>
+				{user.role === 'ADMIN' && (
+					<IconButton
+						aria-label="Create new category"
+						icon={<MdOutlineCreateNewFolder fontSize="30" />}
+						variant="ghost"
+						color="brand.500"
+						_hover={{ color: 'brand.300', bg: 'brand.100' }}
+						onClick={onCreateOpen}
+						fontSize="20px"
+					/>
+				)}
+			</Flex>
+			<Flex mb="4" gap="4">
+				<Input
+					placeholder="Search by name"
+					value={searchQuery}
+					onChange={e => setSearchQuery(e.target.value)}
+					borderColor="brand.300"
+					_focus={{
+						borderColor: 'brand.400',
+						boxShadow: '0 0 0 2px brand.400'
+					}}
 				/>
-			)}
+				<Button
+					onClick={handleSortByDate}
+					bg="brand.300"
+					color="brand.0"
+					_hover={{ bg: 'brand.400' }}
+				>
+					Sort by Date ({sortOrder === 'asc' ? 'asc' : 'desc'})
+				</Button>
+			</Flex>
 			{loading ? (
 				<Flex justify="center" align="center" minH="200px">
 					<Spinner size="xl" />
 				</Flex>
 			) : (
 				<SimpleGrid columns={3} spacing="6">
-					{categories.map(category => (
+					{filteredCategories.map(category => (
 						<CategoryCard key={category.id} category={category} />
 					))}
 				</SimpleGrid>

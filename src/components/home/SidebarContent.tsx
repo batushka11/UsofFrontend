@@ -16,13 +16,13 @@ interface LinkItemProps {
 }
 
 const LinkItems: Array<LinkItemProps> = [
-	{ name: 'Home', icon: FiHome, redirect: '/home' },
-	{ name: 'My posts', icon: BsFilePost, redirect: '/my-posts' },
+	{ name: 'Home', icon: FiHome, redirect: '/home/1' },
+	{ name: 'My posts', icon: BsFilePost, redirect: '/my-posts/1' },
 	{ name: 'Create post', icon: IoIosCreate, redirect: '/create-post' },
-	{ name: 'Bookmarks', icon: FaBookmark, redirect: '/bookmarks' },
-	{ name: 'Subscribes', icon: FiBell, redirect: '/subscribes' },
+	{ name: 'Bookmarks', icon: FaBookmark, redirect: '/bookmarks/1' },
+	{ name: 'Subscribes', icon: FiBell, redirect: '/subscribes/1' },
 	{ name: 'Categories', icon: TbCategoryFilled, redirect: '/categories' },
-	{ name: 'Users', icon: FaUsers, redirect: '/users' }
+	{ name: 'Users', icon: FaUsers, redirect: '/users/1' }
 ]
 
 const SidebarContent: React.FC = () => {

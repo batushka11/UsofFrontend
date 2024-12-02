@@ -29,7 +29,7 @@ const NotFoundPage = () => {
 			<Center>
 				<Button
 					as={Link}
-					to="/"
+					to="/home/1"
 					bg="brand.400"
 					color="white"
 					_hover={{ bg: 'brand.300' }}

@@ -33,7 +33,7 @@ const LoginForm: React.FC = () => {
 	useEffect(() => {
 		if (success) {
 			dispatch(clearState())
-			navigate('/home')
+			navigate('/home/1')
 		}
 		if (error) {
 			console.log(error)

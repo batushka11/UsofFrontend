@@ -18,12 +18,14 @@ import React, { useState } from 'react'
 import { FaEdit } from 'react-icons/fa'
 import { MdDelete } from 'react-icons/md'
 import apiClient from '../../../helpers/axios'
+import { useAppSelector } from '../../../hooks/reduxHooks'
 
 const DeleteEditSectionComment: React.FC<any> = ({
 	comment,
 	onDelete,
 	onUpdate
 }) => {
+	const { user } = useAppSelector(state => state.auth)
 	const toast = useToast()
 	const [loading, setLoading] = useState<boolean>(false)
 	const [editedComment, setEditedComment] = useState(comment?.content || '')
@@ -70,15 +72,17 @@ const DeleteEditSectionComment: React.FC<any> = ({
 	}
 	return (
 		<Flex>
-			<IconButton
-				aria-label="Edit comment"
-				icon={<FaEdit />}
-				variant="ghost"
-				color="brand.500"
-				_hover={{ color: 'brand.300', bg: 'brand.100' }}
-				onClick={onEditOpen}
-				fontSize="20px"
-			/>
+			{user.id === comment.user.id && (
+				<IconButton
+					aria-label="Edit comment"
+					icon={<FaEdit />}
+					variant="ghost"
+					color="brand.500"
+					_hover={{ color: 'brand.300', bg: 'brand.100' }}
+					onClick={onEditOpen}
+					fontSize="20px"
+				/>
+			)}
 			<IconButton
 				aria-label="Delete comment"
 				icon={<MdDelete />}

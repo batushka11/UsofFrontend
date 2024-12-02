@@ -42,6 +42,10 @@ const theme = extendTheme({
 			'brand.800': {
 				default: '#ffffff',
 				_dark: '#0f0f0f'
+			},
+			'brand.900': {
+				default: '#0f0f0f',
+				_dark: '#ffffff'
 			}
 		}
 	},

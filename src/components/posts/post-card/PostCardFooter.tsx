@@ -1,7 +1,8 @@
 import { Flex, Icon, Text } from '@chakra-ui/react'
 import { AiFillFire } from 'react-icons/ai'
-import { FaBook, FaPoop } from 'react-icons/fa'
+import { FaBook } from 'react-icons/fa'
 import { FiMessageCircle } from 'react-icons/fi'
+import { GiIceCube } from 'react-icons/gi'
 import { useNavigate } from 'react-router-dom'
 import { Post } from '../FetchPosts'
 
@@ -40,7 +41,7 @@ const PostCardFooter: React.FC<{ post: Post }> = ({ post }) => {
 			<Flex align="center" gap="4">
 				<Flex align="center" gap="2">
 					{post.rating < 0 ? (
-						<Icon as={FaPoop} color="#5f1e06" boxSize="4" />
+						<Icon as={GiIceCube} color="#3a3a9e" boxSize="5" />
 					) : (
 						<Icon as={AiFillFire} color="orange.500" boxSize="5" />
 					)}
