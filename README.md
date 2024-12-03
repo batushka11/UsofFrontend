@@ -1,4 +1,4 @@
-<div style="display: flex; justify-content: center; align-items: center; ">
+<div align="center">
   <img src="https://speakaboutit.s3.eu-north-1.amazonaws.com/svgviewer-png-output-4.png" alt="Logo" style="height: 130px; width: 250px;" />
 </div>
 
