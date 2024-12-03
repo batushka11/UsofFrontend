@@ -57,7 +57,7 @@ const PostByCategoryBoard: React.FC = () => {
 		}
 		window.scrollTo({ top: 0 })
 		fetchPosts()
-	}, [page, id, size])
+	}, [page, id, size, toast])
 
 	const handleSizeChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
 		setSize(Number(event.target.value))
