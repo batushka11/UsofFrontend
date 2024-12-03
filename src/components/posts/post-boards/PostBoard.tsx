@@ -35,8 +35,8 @@ const PostsBoard: React.FC = () => {
 		startDate: '',
 		endDate: '',
 		categories: [] as string[],
-		sortBy: '',
-		order: '',
+		sortBy: 'publishAt',
+		order: 'desc',
 		limit: ''
 	}
 	const [filters, setFilters] = useState(defaultFilters)
@@ -156,18 +156,32 @@ const PostsBoard: React.FC = () => {
 					value={draftFilters.title}
 					onChange={handleFilterChange}
 				/>
-				<Input
-					type="date"
-					name="startDate"
-					value={draftFilters.startDate}
-					onChange={handleFilterChange}
-				/>
-				<Input
-					type="date"
-					name="endDate"
-					value={draftFilters.endDate}
-					onChange={handleFilterChange}
-				/>
+				<Flex direction="row" align="center" width="100%" gap="10px">
+					<Text width="auto" flexShrink={0}>
+						Start date
+					</Text>
+					<Input
+						placeholder="Start date"
+						type="date"
+						name="startDate"
+						value={draftFilters.startDate}
+						onChange={handleFilterChange}
+						flex="1"
+					/>
+				</Flex>
+				<Flex direction="row" align="center" width="100%" gap="10px">
+					<Text width="auto" flexShrink={0} mr="2">
+						End date
+					</Text>
+					<Input
+						placeholder="End date"
+						type="date"
+						name="endDate"
+						value={draftFilters.endDate}
+						onChange={handleFilterChange}
+						flex="1"
+					/>
+				</Flex>
 				<Box width="400px">
 					<ReactSelect
 						options={categories}

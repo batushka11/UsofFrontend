@@ -32,8 +32,8 @@ const SubscribesPostsBoard: React.FC = () => {
 		startDate: '',
 		endDate: '',
 		categories: [] as string[],
-		sortBy: '',
-		order: '',
+		sortBy: 'publishAt',
+		order: 'desc',
 		limit: ''
 	}
 	const [filters, setFilters] = useState(defaultFilters)
@@ -49,14 +49,7 @@ const SubscribesPostsBoard: React.FC = () => {
 						value: category.id
 					}))
 				)
-			} catch (error: any) {
-				toast({
-					title: error?.response?.data?.message || 'Failed to load categories',
-					status: 'error',
-					duration: 3000,
-					isClosable: true
-				})
-			}
+			} catch (error: any) {}
 		}
 		fetchCategories()
 	}, [toast])
@@ -88,12 +81,6 @@ const SubscribesPostsBoard: React.FC = () => {
 				setPosts(detailedPosts)
 				setTotalPages(response.data.totalPages)
 			} catch (error: any) {
-				toast({
-					title: error.response?.data?.message,
-					status: 'error',
-					duration: 3000,
-					isClosable: true
-				})
 			} finally {
 				setLoading(false)
 			}
@@ -154,18 +141,32 @@ const SubscribesPostsBoard: React.FC = () => {
 					value={draftFilters.title}
 					onChange={handleFilterChange}
 				/>
-				<Input
-					type="date"
-					name="startDate"
-					value={draftFilters.startDate}
-					onChange={handleFilterChange}
-				/>
-				<Input
-					type="date"
-					name="endDate"
-					value={draftFilters.endDate}
-					onChange={handleFilterChange}
-				/>
+				<Flex direction="row" align="center" width="100%" gap="10px">
+					<Text width="auto" flexShrink={0}>
+						Start date
+					</Text>
+					<Input
+						placeholder="Start date"
+						type="date"
+						name="startDate"
+						value={draftFilters.startDate}
+						onChange={handleFilterChange}
+						flex="1"
+					/>
+				</Flex>
+				<Flex direction="row" align="center" width="100%" gap="10px">
+					<Text width="auto" flexShrink={0} mr="2">
+						End date
+					</Text>
+					<Input
+						placeholder="End date"
+						type="date"
+						name="endDate"
+						value={draftFilters.endDate}
+						onChange={handleFilterChange}
+						flex="1"
+					/>
+				</Flex>
 				<Box width="400px">
 					<ReactSelect
 						options={categories}

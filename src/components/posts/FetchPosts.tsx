@@ -69,14 +69,7 @@ const fetchPostsWithDetails = async (path: string): Promise<Post[]> => {
 					categories,
 					commentsCount
 				}
-			} catch (error) {
-				return {
-					...post,
-					author: { login: 'Unknown', avatar: '' },
-					categories: [],
-					commentsCount: 0
-				}
-			}
+			} catch (error) {}
 		})
 	)
 

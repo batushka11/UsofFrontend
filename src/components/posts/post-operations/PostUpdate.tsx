@@ -13,6 +13,7 @@ import {
 	ModalContent,
 	ModalHeader,
 	ModalOverlay,
+	Select,
 	useDisclosure,
 	useToast
 } from '@chakra-ui/react'
@@ -21,7 +22,7 @@ import React, { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import MdEditor from 'react-markdown-editor-lite'
 import 'react-markdown-editor-lite/lib/index.css'
-import Select from 'react-select'
+import ReactSelect from 'react-select'
 import apiClient from '../../../helpers/axios'
 import { useAppSelector } from '../../../hooks/reduxHooks'
 
@@ -151,7 +152,7 @@ const UpdatePost: React.FC<any> = ({ post, initialSelectedCategories }) => {
 									<FormControl mb={4}>
 										<FormLabel color="brand.300">Categories</FormLabel>
 										<Box border="1px" borderColor="brand.200" borderRadius="md">
-											<Select
+											<ReactSelect
 												isMulti
 												options={categories.map(category => ({
 													value: category.id,
@@ -205,27 +206,10 @@ const UpdatePost: React.FC<any> = ({ post, initialSelectedCategories }) => {
 
 							<FormControl mb={4}>
 								<FormLabel color="brand.300">Status</FormLabel>
-								<Box
-									border="1px"
-									borderColor="brand.200"
-									borderRadius="md"
-									bg="brand.100"
-									p={4}
-								>
-									<select
-										{...register('status', { required: true })}
-										style={{
-											width: '100%',
-											padding: '8px',
-											borderRadius: '8px',
-											border: '1px solid #7F5539',
-											backgroundColor: 'whitesmoke'
-										}}
-									>
-										<option value="ACTIVE">Active</option>
-										<option value="INACTIVE">Inactive</option>
-									</select>
-								</Box>
+								<Select {...register('status', { required: true })}>
+									<option value="ACTIVE">Active</option>
+									<option value="INACTIVE">Inactive</option>
+								</Select>
 							</FormControl>
 
 							<Button

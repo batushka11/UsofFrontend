@@ -32,8 +32,8 @@ const UserPostsBoard: React.FC = () => {
 		startDate: '',
 		endDate: '',
 		categories: [] as string[],
-		sortBy: '',
-		order: '',
+		sortBy: 'publishAt',
+		order: 'desc',
 		status: '',
 		limit: ''
 	})
@@ -49,9 +49,7 @@ const UserPostsBoard: React.FC = () => {
 						value: category.id
 					}))
 				)
-			} catch (error) {
-				console.error('Error fetching categories:', error)
-			}
+			} catch (error) {}
 		}
 		fetchCategories()
 	}, [])
@@ -82,7 +80,6 @@ const UserPostsBoard: React.FC = () => {
 				setPosts(detailedPosts)
 				setTotalPages(response.data.totalPages)
 			} catch (error) {
-				console.error('Error fetching posts:', error)
 			} finally {
 				setLoading(false)
 			}
@@ -128,8 +125,8 @@ const UserPostsBoard: React.FC = () => {
 			startDate: '',
 			endDate: '',
 			categories: [],
-			sortBy: '',
-			order: '',
+			sortBy: 'publishAt',
+			order: 'desc',
 			status: '',
 			limit: ''
 		})
@@ -161,18 +158,32 @@ const UserPostsBoard: React.FC = () => {
 					value={tempFilters.title}
 					onChange={handleFilterChange}
 				/>
-				<Input
-					type="date"
-					name="startDate"
-					value={tempFilters.startDate}
-					onChange={handleFilterChange}
-				/>
-				<Input
-					type="date"
-					name="endDate"
-					value={tempFilters.endDate}
-					onChange={handleFilterChange}
-				/>
+				<Flex direction="row" align="center" width="100%" gap="10px">
+					<Text width="auto" flexShrink={0}>
+						Start date
+					</Text>
+					<Input
+						placeholder="Start date"
+						type="date"
+						name="startDate"
+						value={tempFilters.startDate}
+						onChange={handleFilterChange}
+						flex="1"
+					/>
+				</Flex>
+				<Flex direction="row" align="center" width="100%" gap="10px">
+					<Text width="auto" flexShrink={0} mr="2">
+						End date
+					</Text>
+					<Input
+						placeholder="End date"
+						type="date"
+						name="endDate"
+						value={tempFilters.endDate}
+						onChange={handleFilterChange}
+						flex="1"
+					/>
+				</Flex>
 				<Box width="400px">
 					<ReactSelect
 						options={categories}

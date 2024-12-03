@@ -32,8 +32,8 @@ const BookmarkPostsBoard: React.FC = () => {
 		startDate: '',
 		endDate: '',
 		categories: [] as string[],
-		sortBy: '',
-		order: '',
+		sortBy: 'publishAt',
+		order: 'desc',
 		limit: ''
 	})
 	const [appliedFilters, setAppliedFilters] = useState(filters)
@@ -132,8 +132,8 @@ const BookmarkPostsBoard: React.FC = () => {
 			startDate: '',
 			endDate: '',
 			categories: [],
-			sortBy: '',
-			order: '',
+			sortBy: 'publishAt',
+			order: 'desc',
 			limit: ''
 		})
 		setAppliedFilters({
@@ -141,8 +141,8 @@ const BookmarkPostsBoard: React.FC = () => {
 			startDate: '',
 			endDate: '',
 			categories: [],
-			sortBy: '',
-			order: '',
+			sortBy: 'publishAt',
+			order: 'desc',
 			limit: ''
 		})
 	}
@@ -173,18 +173,33 @@ const BookmarkPostsBoard: React.FC = () => {
 					value={filters.title}
 					onChange={handleFilterChange}
 				/>
-				<Input
-					type="date"
-					name="startDate"
-					value={filters.startDate}
-					onChange={handleFilterChange}
-				/>
-				<Input
-					type="date"
-					name="endDate"
-					value={filters.endDate}
-					onChange={handleFilterChange}
-				/>
+				<Flex direction="row" align="center" width="100%" gap="10px">
+					<Text width="auto" flexShrink={0}>
+						Start date
+					</Text>
+					<Input
+						placeholder="Start date"
+						type="date"
+						name="startDate"
+						value={filters.startDate}
+						onChange={handleFilterChange}
+						flex="1"
+					/>
+				</Flex>
+
+				<Flex direction="row" align="center" width="100%" gap="10px">
+					<Text width="auto" flexShrink={0} mr="2">
+						End date
+					</Text>
+					<Input
+						placeholder="End date"
+						type="date"
+						name="endDate"
+						value={filters.endDate}
+						onChange={handleFilterChange}
+						flex="1"
+					/>
+				</Flex>
 				<Box width="400px">
 					<ReactSelect
 						options={categories}

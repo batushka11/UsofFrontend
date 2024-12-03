@@ -1,4 +1,4 @@
-import { MoonIcon, SunIcon } from '@chakra-ui/icons'
+import { InfoIcon, MoonIcon, SunIcon } from '@chakra-ui/icons'
 import {
 	Avatar,
 	AvatarBadge,
@@ -15,6 +15,7 @@ import {
 	MenuItem,
 	MenuList,
 	Text,
+	Tooltip,
 	useColorMode,
 	useToast,
 	VStack
@@ -93,15 +94,15 @@ const Header: React.FC = () => {
 			zIndex="1000"
 		>
 			<LogoHome />
-			<Box flex="1" px="4">
+			<Box flex="1" px={4}>
 				<InputGroup>
 					<InputLeftElement
 						pointerEvents="none"
 						children={<Icon as={FiSearch} color="brand.400" />}
 					/>
 					<Input
-						width={500}
-						borderRadius={50}
+						width="500px"
+						borderRadius="full"
 						placeholder="Search..."
 						bg="brand.50"
 						borderColor="brand.200"
@@ -114,8 +115,38 @@ const Header: React.FC = () => {
 							}
 						}}
 					/>
+					<Tooltip
+						label={
+							<Box borderRadius="25px">
+								<Text>
+									<strong>Type this → Go to:</strong>
+								</Text>
+								<Text>Categories → `categories`</Text>
+								<Text>Bookmarks → `bookmarks`</Text>
+								<Text>Subscribes → `subscribes`</Text>
+								<Text>My posts → `my-posts`</Text>
+								<Text>Posts → `posts`</Text>
+								<Text>Create → `create-post`</Text>
+								<Text>Home → `home`</Text>
+								<Text>Users → `users`</Text>
+								<Text>Profile → `my-profile`</Text>
+							</Box>
+						}
+						fontSize="md"
+						placement="right"
+						hasArrow
+					>
+						<IconButton
+							aria-label="Info"
+							icon={<InfoIcon />}
+							variant="ghost"
+							size="24"
+							ml="2"
+						/>
+					</Tooltip>
 				</InputGroup>
 			</Box>
+
 			<HStack spacing="6">
 				<IconButton
 					aria-label="Switch color mode"
