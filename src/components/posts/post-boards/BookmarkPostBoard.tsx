@@ -36,6 +36,7 @@ const BookmarkPostsBoard: React.FC = () => {
 		order: '',
 		limit: ''
 	})
+	const [appliedFilters, setAppliedFilters] = useState(filters)
 
 	useEffect(() => {
 		const fetchCategories = async () => {
@@ -65,15 +66,19 @@ const BookmarkPostsBoard: React.FC = () => {
 			try {
 				const queryParams = new URLSearchParams({
 					page: id || '1',
-					size: filters.limit,
-					...(filters.title && { title: filters.title }),
-					...(filters.startDate && { 'date[start]': filters.startDate }),
-					...(filters.endDate && { 'date[end]': filters.endDate }),
-					...(filters.sortBy && { sortBy: filters.sortBy }),
-					...(filters.order && { order: filters.order })
+					size: appliedFilters.limit,
+					...(appliedFilters.title && { title: appliedFilters.title }),
+					...(appliedFilters.startDate && {
+						'date[start]': appliedFilters.startDate
+					}),
+					...(appliedFilters.endDate && {
+						'date[end]': appliedFilters.endDate
+					}),
+					...(appliedFilters.sortBy && { sortBy: appliedFilters.sortBy }),
+					...(appliedFilters.order && { order: appliedFilters.order })
 				})
 
-				filters.categories.forEach(category => {
+				appliedFilters.categories.forEach(category => {
 					queryParams.append('category', category)
 				})
 
@@ -86,13 +91,19 @@ const BookmarkPostsBoard: React.FC = () => {
 				setPosts(detailedPosts)
 				setTotalPages(response.data.totalPages)
 			} catch (error: any) {
+				toast({
+					title: error.response?.data?.message,
+					status: 'error',
+					duration: 3000,
+					isClosable: true
+				})
 			} finally {
 				setLoading(false)
 			}
 		}
 		window.scrollTo({ top: 0 })
 		fetchPosts()
-	}, [id, filters, toast])
+	}, [id, appliedFilters, toast])
 
 	const handleFilterChange = (
 		e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
@@ -125,13 +136,19 @@ const BookmarkPostsBoard: React.FC = () => {
 			order: '',
 			limit: ''
 		})
+		setAppliedFilters({
+			title: '',
+			startDate: '',
+			endDate: '',
+			categories: [],
+			sortBy: '',
+			order: '',
+			limit: ''
+		})
 	}
 
-	const handleSizeChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-		setFilters(prevFilters => ({
-			...prevFilters,
-			limit: event.target.value
-		}))
+	const applyFilters = () => {
+		setAppliedFilters(filters)
 	}
 
 	return (
@@ -201,7 +218,7 @@ const BookmarkPostsBoard: React.FC = () => {
 					placeholder="Posts per page"
 					name="limit"
 					value={filters.limit}
-					onChange={handleSizeChange}
+					onChange={handleFilterChange}
 					width="150px"
 				>
 					<option value="5">5</option>
@@ -210,11 +227,7 @@ const BookmarkPostsBoard: React.FC = () => {
 					<option value="50">50</option>
 				</Select>
 				<Flex gap="2">
-					<Button
-						colorScheme="brand"
-						color="white"
-						onClick={() => setFilters({ ...filters })}
-					>
+					<Button colorScheme="brand" color="white" onClick={applyFilters}>
 						Apply Filters
 					</Button>
 					<Button colorScheme="gray" onClick={resetFilters}>

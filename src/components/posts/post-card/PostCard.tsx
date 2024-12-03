@@ -32,7 +32,7 @@ const PostCard: React.FC<{ post: Post }> = ({ post }) => {
 					remarkPlugins={[remarkGfm]}
 					components={chakraMarkdownComponents}
 				>
-					{truncateText(post?.content || '', 300)}
+					{truncateText(post?.content || '', 1000)}
 				</Markdown>
 			</Box>
 

@@ -46,6 +46,9 @@ const UpdateUser: React.FC<UserUpdateProps> = ({ user_ }) => {
 				...(data.email !== user_.email && { email: data.email })
 			}
 			await apiClient.patch(`/users/${user_.id}`, dataForm)
+			onCreateClose()
+			reset()
+			window.location.reload()
 		} catch (error: any) {
 			toast({
 				title: error.response.data.message,
@@ -55,9 +58,6 @@ const UpdateUser: React.FC<UserUpdateProps> = ({ user_ }) => {
 			})
 		} finally {
 			setLoading(false)
-			onCreateClose()
-			reset()
-			window.location.reload()
 		}
 	}
 

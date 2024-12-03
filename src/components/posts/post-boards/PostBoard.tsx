@@ -29,7 +29,7 @@ const PostsBoard: React.FC = () => {
 	const [categories, setCategories] = useState<
 		{ label: string; value: string }[]
 	>([])
-	const [filters, setFilters] = useState({
+	const defaultFilters = {
 		title: '',
 		status: '',
 		startDate: '',
@@ -38,7 +38,9 @@ const PostsBoard: React.FC = () => {
 		sortBy: '',
 		order: '',
 		limit: ''
-	})
+	}
+	const [filters, setFilters] = useState(defaultFilters)
+	const [draftFilters, setDraftFilters] = useState(defaultFilters)
 
 	useEffect(() => {
 		const fetchCategories = async () => {
@@ -105,8 +107,8 @@ const PostsBoard: React.FC = () => {
 	const handleFilterChange = (
 		e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
 	) => {
-		setFilters(prevFilters => ({
-			...prevFilters,
+		setDraftFilters(prevDraftFilters => ({
+			...prevDraftFilters,
 			[e.target.name]: e.target.value
 		}))
 	}
@@ -114,8 +116,8 @@ const PostsBoard: React.FC = () => {
 	const handleCategoryChange = (
 		selectedOptions: MultiValue<{ label: string; value: string }>
 	) => {
-		setFilters(prevFilters => ({
-			...prevFilters,
+		setDraftFilters(prevDraftFilters => ({
+			...prevDraftFilters,
 			categories: selectedOptions.map(option => {
 				const category = categories.find(c => c.value === option.value)
 				return category ? category.label : ''
@@ -123,17 +125,13 @@ const PostsBoard: React.FC = () => {
 		}))
 	}
 
+	const applyFilters = () => {
+		setFilters(draftFilters)
+	}
+
 	const resetFilters = () => {
-		setFilters({
-			title: '',
-			status: '',
-			startDate: '',
-			endDate: '',
-			categories: [],
-			sortBy: '',
-			order: '',
-			limit: ''
-		})
+		setDraftFilters(defaultFilters)
+		setFilters(defaultFilters)
 	}
 
 	return (
@@ -155,19 +153,19 @@ const PostsBoard: React.FC = () => {
 				<Input
 					placeholder="Search by title"
 					name="title"
-					value={filters.title}
+					value={draftFilters.title}
 					onChange={handleFilterChange}
 				/>
 				<Input
 					type="date"
 					name="startDate"
-					value={filters.startDate}
+					value={draftFilters.startDate}
 					onChange={handleFilterChange}
 				/>
 				<Input
 					type="date"
 					name="endDate"
-					value={filters.endDate}
+					value={draftFilters.endDate}
 					onChange={handleFilterChange}
 				/>
 				<Box width="400px">
@@ -182,7 +180,7 @@ const PostsBoard: React.FC = () => {
 					<Select
 						placeholder="Status"
 						name="status"
-						value={filters.status}
+						value={draftFilters.status}
 						onChange={handleFilterChange}
 						width="150px"
 					>
@@ -193,7 +191,7 @@ const PostsBoard: React.FC = () => {
 				<Select
 					placeholder="Sort by"
 					name="sortBy"
-					value={filters.sortBy}
+					value={draftFilters.sortBy}
 					onChange={handleFilterChange}
 					width="150px"
 				>
@@ -204,7 +202,7 @@ const PostsBoard: React.FC = () => {
 				<Select
 					placeholder="Order"
 					name="order"
-					value={filters.order}
+					value={draftFilters.order}
 					onChange={handleFilterChange}
 					width="120px"
 				>
@@ -214,7 +212,7 @@ const PostsBoard: React.FC = () => {
 				<Select
 					placeholder="Posts per page"
 					name="limit"
-					value={filters.limit}
+					value={draftFilters.limit}
 					onChange={handleFilterChange}
 					width="150px"
 				>
@@ -224,11 +222,7 @@ const PostsBoard: React.FC = () => {
 					<option value="50">50</option>
 				</Select>
 				<Flex gap="2">
-					<Button
-						colorScheme="brand"
-						color="white"
-						onClick={() => setFilters({ ...filters })}
-					>
+					<Button colorScheme="brand" color="white" onClick={applyFilters}>
 						Apply Filters
 					</Button>
 					<Button colorScheme="gray" onClick={resetFilters}>

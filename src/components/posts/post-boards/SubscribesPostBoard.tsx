@@ -27,7 +27,7 @@ const SubscribesPostsBoard: React.FC = () => {
 	const [categories, setCategories] = useState<
 		{ label: string; value: string }[]
 	>([])
-	const [filters, setFilters] = useState({
+	const defaultFilters = {
 		title: '',
 		startDate: '',
 		endDate: '',
@@ -35,7 +35,9 @@ const SubscribesPostsBoard: React.FC = () => {
 		sortBy: '',
 		order: '',
 		limit: ''
-	})
+	}
+	const [filters, setFilters] = useState(defaultFilters)
+	const [draftFilters, setDraftFilters] = useState(defaultFilters)
 
 	useEffect(() => {
 		const fetchCategories = async () => {
@@ -65,7 +67,7 @@ const SubscribesPostsBoard: React.FC = () => {
 			try {
 				const queryParams = new URLSearchParams({
 					page: id || '1',
-					size: filters.limit,
+					size: filters.limit || '10',
 					...(filters.title && { title: filters.title }),
 					...(filters.startDate && { 'date[start]': filters.startDate }),
 					...(filters.endDate && { 'date[end]': filters.endDate }),
@@ -103,8 +105,8 @@ const SubscribesPostsBoard: React.FC = () => {
 	const handleFilterChange = (
 		e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
 	) => {
-		setFilters(prevFilters => ({
-			...prevFilters,
+		setDraftFilters(prevDraftFilters => ({
+			...prevDraftFilters,
 			[e.target.name]: e.target.value
 		}))
 	}
@@ -112,8 +114,8 @@ const SubscribesPostsBoard: React.FC = () => {
 	const handleCategoryChange = (
 		selectedOptions: MultiValue<{ label: string; value: string }>
 	) => {
-		setFilters(prevFilters => ({
-			...prevFilters,
+		setDraftFilters(prevDraftFilters => ({
+			...prevDraftFilters,
 			categories: selectedOptions.map(option => {
 				const category = categories.find(c => c.value === option.value)
 				return category ? category.label : ''
@@ -121,16 +123,13 @@ const SubscribesPostsBoard: React.FC = () => {
 		}))
 	}
 
+	const applyFilters = () => {
+		setFilters(draftFilters)
+	}
+
 	const resetFilters = () => {
-		setFilters({
-			title: '',
-			startDate: '',
-			endDate: '',
-			categories: [],
-			sortBy: '',
-			order: '',
-			limit: ''
-		})
+		setDraftFilters(defaultFilters)
+		setFilters(defaultFilters)
 	}
 
 	return (
@@ -152,19 +151,19 @@ const SubscribesPostsBoard: React.FC = () => {
 				<Input
 					placeholder="Search by title"
 					name="title"
-					value={filters.title}
+					value={draftFilters.title}
 					onChange={handleFilterChange}
 				/>
 				<Input
 					type="date"
 					name="startDate"
-					value={filters.startDate}
+					value={draftFilters.startDate}
 					onChange={handleFilterChange}
 				/>
 				<Input
 					type="date"
 					name="endDate"
-					value={filters.endDate}
+					value={draftFilters.endDate}
 					onChange={handleFilterChange}
 				/>
 				<Box width="400px">
@@ -178,7 +177,7 @@ const SubscribesPostsBoard: React.FC = () => {
 				<Select
 					placeholder="Sort by"
 					name="sortBy"
-					value={filters.sortBy}
+					value={draftFilters.sortBy}
 					onChange={handleFilterChange}
 					width="150px"
 				>
@@ -189,7 +188,7 @@ const SubscribesPostsBoard: React.FC = () => {
 				<Select
 					placeholder="Order"
 					name="order"
-					value={filters.order}
+					value={draftFilters.order}
 					onChange={handleFilterChange}
 					width="120px"
 				>
@@ -199,7 +198,7 @@ const SubscribesPostsBoard: React.FC = () => {
 				<Select
 					placeholder="Posts per page"
 					name="limit"
-					value={filters.limit}
+					value={draftFilters.limit}
 					onChange={handleFilterChange}
 					width="150px"
 				>
@@ -209,11 +208,7 @@ const SubscribesPostsBoard: React.FC = () => {
 					<option value="50">50</option>
 				</Select>
 				<Flex gap="2">
-					<Button
-						colorScheme="brand"
-						color="white"
-						onClick={() => setFilters({ ...filters })}
-					>
+					<Button colorScheme="brand" color="white" onClick={applyFilters}>
 						Apply Filters
 					</Button>
 					<Button colorScheme="gray" onClick={resetFilters}>

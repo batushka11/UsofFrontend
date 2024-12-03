@@ -31,6 +31,8 @@ const DeleteUser: React.FC<{ id: number }> = ({ id }) => {
 				duration: 3000,
 				isClosable: true
 			})
+			onClose()
+			window.location.reload()
 		} catch (error: any) {
 			toast({
 				title: error.response?.data?.message || 'Failed to delete user',
@@ -40,8 +42,6 @@ const DeleteUser: React.FC<{ id: number }> = ({ id }) => {
 			})
 		} finally {
 			setLoading(false)
-			onClose()
-			window.location.reload()
 		}
 	}
 

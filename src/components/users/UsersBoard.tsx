@@ -52,7 +52,7 @@ export interface User {
 
 const UsersBoard: React.FC = () => {
 	const navigate = useNavigate()
-	const { register, handleSubmit, reset, watch } = useForm()
+	const { register, handleSubmit, reset } = useForm()
 	const [users, setUsers] = useState<User[]>([])
 	const [loading, setLoading] = useState<boolean>(false)
 	const toast = useToast()
@@ -60,9 +60,18 @@ const UsersBoard: React.FC = () => {
 	const { id } = useParams<{ id: string }>()
 	const [totalPages, setTotalPages] = useState(1)
 	const [showPassword, setShowPassword] = useState(false)
-	const [sortBy, setSortBy] = useState<'rating' | 'createdAt'>('rating')
+
+	const [sortBy, setSortBy] = useState<'rating' | 'createdAt'>('createdAt')
 	const [sortDirection, setSortDirection] = useState<'asc' | 'desc'>('desc')
 	const [size, setSize] = useState<number>(15)
+
+	const [tempSortBy, setTempSortBy] = useState<'rating' | 'createdAt'>(
+		'createdAt'
+	)
+	const [tempSortDirection, setTempSortDirection] = useState<'asc' | 'desc'>(
+		'desc'
+	)
+	const [tempSize, setTempSize] = useState<number>(15)
 
 	const {
 		isOpen: isCreateOpen,
@@ -93,6 +102,21 @@ const UsersBoard: React.FC = () => {
 		fetchUsers()
 	}, [toast, id, size, sortBy, sortDirection])
 
+	const handleApplyFilters = () => {
+		setSortBy(tempSortBy)
+		setSortDirection(tempSortDirection)
+		setSize(tempSize)
+	}
+
+	const resetFilters = () => {
+		setTempSortBy('createdAt')
+		setTempSortDirection('desc')
+		setTempSize(15)
+		setSortBy('createdAt')
+		setSortDirection('desc')
+		setSize(15)
+	}
+
 	const onSubmit = async (data: any) => {
 		setLoading(true)
 		try {
@@ -121,20 +145,6 @@ const UsersBoard: React.FC = () => {
 		}
 	}
 
-	const handleSortChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-		setSortBy(event.target.value as 'rating' | 'createdAt')
-	}
-
-	const handleSortDirectionChange = (
-		event: React.ChangeEvent<HTMLSelectElement>
-	) => {
-		setSortDirection(event.target.value as 'asc' | 'desc')
-	}
-
-	const handleSizeChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-		setSize(Number(event.target.value))
-	}
-
 	return (
 		<Box>
 			<Text fontSize="3vh" fontWeight="extrabold" mb="2">
@@ -153,30 +163,63 @@ const UsersBoard: React.FC = () => {
 				/>
 			)}
 
-			<HStack mb="4">
-				<FormControl>
+			<HStack mb="4" spacing={4} alignItems="center">
+				<FormControl w="auto">
 					<FormLabel>Sort By</FormLabel>
-					<Select onChange={handleSortChange} value={sortBy}>
+					<Select
+						onChange={e =>
+							setTempSortBy(e.target.value as 'rating' | 'createdAt')
+						}
+						value={tempSortBy}
+						size="sm"
+					>
 						<option value="rating">Rating</option>
 						<option value="createdAt">Date Created</option>
 					</Select>
 				</FormControl>
-				<FormControl>
+				<FormControl w="auto">
 					<FormLabel>Sort Direction</FormLabel>
-					<Select onChange={handleSortDirectionChange} value={sortDirection}>
+					<Select
+						onChange={e =>
+							setTempSortDirection(e.target.value as 'asc' | 'desc')
+						}
+						value={tempSortDirection}
+						size="sm"
+					>
 						<option value="asc">Ascending</option>
 						<option value="desc">Descending</option>
 					</Select>
 				</FormControl>
-				<FormControl>
+				<FormControl w="auto">
 					<FormLabel>Items per page</FormLabel>
-					<Select value={size} onChange={handleSizeChange} width="125px">
+					<Select
+						onChange={e => setTempSize(Number(e.target.value))}
+						value={tempSize}
+						size="sm"
+					>
 						<option value={15}>15</option>
 						<option value={21}>21</option>
 						<option value={27}>27</option>
 						<option value={33}>33</option>
 					</Select>
 				</FormControl>
+				<Box w="auto" mt="6px">
+					<Button
+						mb="-6"
+						colorScheme="brand"
+						bg="brand.500"
+						color="white"
+						size="sm"
+						onClick={handleApplyFilters}
+					>
+						Apply Filters
+					</Button>
+				</Box>
+				<Box w="auto" mt="6px">
+					<Button colorScheme="gray" size="sm" onClick={resetFilters} mb="-6">
+						Reset Filters
+					</Button>
+				</Box>
 			</HStack>
 
 			{loading ? (
@@ -255,53 +298,23 @@ const UsersBoard: React.FC = () => {
 											color="brand.900"
 											bg="brand.0"
 										/>
-										<InputRightElement>
+										<InputRightElement h="full">
 											<Button
 												variant="ghost"
-												onClick={() => setShowPassword(!showPassword)}
+												onClick={() =>
+													setShowPassword(showPassword => !showPassword)
+												}
 											>
-												{showPassword ? <ViewIcon /> : <ViewOffIcon />}
+												{showPassword ? <ViewOffIcon /> : <ViewIcon />}
 											</Button>
 										</InputRightElement>
 									</InputGroup>
 								</FormControl>
-								<FormControl id="password_confirm" isRequired>
-									<FormLabel color="brand.400">Confirm Password</FormLabel>
-									<Input
-										type="password"
-										focusBorderColor="brand.400"
-										{...register('password_confirm', {
-											validate: value =>
-												value === watch('password') || 'Passwords do not match'
-										})}
-										color="brand.900"
-										bg="brand.0"
-									/>
-								</FormControl>
-								<FormControl id="role" isRequired>
-									<FormLabel color="brand.400">Role</FormLabel>
-									<Select
-										focusBorderColor="brand.400"
-										{...register('role')}
-										color="brand.900"
-										bg="brand.0"
-									>
-										<option value="USER">User</option>
-										<option value="ADMIN">Admin</option>
-									</Select>
-								</FormControl>
 							</Stack>
 						</ModalBody>
-
 						<ModalFooter>
-							<Button
-								isLoading={loading}
-								type="submit"
-								bg="brand.400"
-								color="white"
-								_hover={{ bg: 'brand.500' }}
-							>
-								Create User
+							<Button colorScheme="blue" type="submit" isLoading={loading}>
+								Create
 							</Button>
 						</ModalFooter>
 					</form>

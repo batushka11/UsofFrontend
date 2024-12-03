@@ -33,7 +33,7 @@ const DeletePost: React.FC<{ id: string }> = ({ id }) => {
 				duration: 3000,
 				isClosable: true
 			})
-			navigate('/home')
+			navigate('/home/1')
 		} catch (error: any) {
 			toast({
 				title: error.response?.data?.message || 'Failed to delete post',

@@ -37,6 +37,7 @@ const UserPostsBoard: React.FC = () => {
 		status: '',
 		limit: ''
 	})
+	const [tempFilters, setTempFilters] = useState(filters)
 
 	useEffect(() => {
 		const fetchCategories = async () => {
@@ -93,8 +94,8 @@ const UserPostsBoard: React.FC = () => {
 	const handleFilterChange = (
 		e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
 	) => {
-		setFilters(prevFilters => ({
-			...prevFilters,
+		setTempFilters(prevTempFilters => ({
+			...prevTempFilters,
 			[e.target.name]: e.target.value
 		}))
 	}
@@ -102,8 +103,8 @@ const UserPostsBoard: React.FC = () => {
 	const handleCategoryChange = (
 		selectedOptions: MultiValue<{ label: string; value: string }>
 	) => {
-		setFilters(prevFilters => ({
-			...prevFilters,
+		setTempFilters(prevTempFilters => ({
+			...prevTempFilters,
 			categories: selectedOptions.map(option => {
 				const category = categories.find(c => c.value === option.value)
 				return category ? category.label : ''
@@ -112,6 +113,16 @@ const UserPostsBoard: React.FC = () => {
 	}
 
 	const resetFilters = () => {
+		setTempFilters({
+			title: '',
+			startDate: '',
+			endDate: '',
+			categories: [],
+			sortBy: '',
+			order: '',
+			status: '',
+			limit: ''
+		})
 		setFilters({
 			title: '',
 			startDate: '',
@@ -122,6 +133,10 @@ const UserPostsBoard: React.FC = () => {
 			status: '',
 			limit: ''
 		})
+	}
+
+	const applyFilters = () => {
+		setFilters(tempFilters)
 	}
 
 	return (
@@ -143,19 +158,19 @@ const UserPostsBoard: React.FC = () => {
 				<Input
 					placeholder="Search by title"
 					name="title"
-					value={filters.title}
+					value={tempFilters.title}
 					onChange={handleFilterChange}
 				/>
 				<Input
 					type="date"
 					name="startDate"
-					value={filters.startDate}
+					value={tempFilters.startDate}
 					onChange={handleFilterChange}
 				/>
 				<Input
 					type="date"
 					name="endDate"
-					value={filters.endDate}
+					value={tempFilters.endDate}
 					onChange={handleFilterChange}
 				/>
 				<Box width="400px">
@@ -169,7 +184,7 @@ const UserPostsBoard: React.FC = () => {
 				<Select
 					placeholder="Status"
 					name="status"
-					value={filters.status}
+					value={tempFilters.status}
 					onChange={handleFilterChange}
 					width="150px"
 				>
@@ -179,7 +194,7 @@ const UserPostsBoard: React.FC = () => {
 				<Select
 					placeholder="Sort by"
 					name="sortBy"
-					value={filters.sortBy}
+					value={tempFilters.sortBy}
 					onChange={handleFilterChange}
 					width="150px"
 				>
@@ -190,7 +205,7 @@ const UserPostsBoard: React.FC = () => {
 				<Select
 					placeholder="Order"
 					name="order"
-					value={filters.order}
+					value={tempFilters.order}
 					onChange={handleFilterChange}
 					width="120px"
 				>
@@ -200,7 +215,7 @@ const UserPostsBoard: React.FC = () => {
 				<Select
 					placeholder="Posts per page"
 					name="limit"
-					value={filters.limit}
+					value={tempFilters.limit}
 					onChange={handleFilterChange}
 					width="150px"
 				>
@@ -210,11 +225,7 @@ const UserPostsBoard: React.FC = () => {
 					<option value="50">50</option>
 				</Select>
 				<Flex gap="2">
-					<Button
-						colorScheme="brand"
-						color="white"
-						onClick={() => setFilters({ ...filters })}
-					>
+					<Button colorScheme="brand" color="white" onClick={applyFilters}>
 						Apply Filters
 					</Button>
 					<Button colorScheme="gray" onClick={resetFilters}>
