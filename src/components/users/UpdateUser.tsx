@@ -64,7 +64,7 @@ const UpdateUser: React.FC<UserUpdateProps> = ({ user_ }) => {
 	return (
 		<>
 			<IconButton
-				aria-label="Create new user"
+				aria-label="Update user"
 				icon={<FaEdit fontSize="18" />}
 				variant="ghost"
 				color="brand.500"
@@ -76,7 +76,7 @@ const UpdateUser: React.FC<UserUpdateProps> = ({ user_ }) => {
 			<Modal isOpen={isCreateOpen} onClose={onCreateClose}>
 				<ModalOverlay />
 				<ModalContent bg="brand.50" borderRadius="lg">
-					<ModalHeader color="brand.500">Create User</ModalHeader>
+					<ModalHeader color="brand.500">Update User</ModalHeader>
 					<ModalCloseButton />
 					<form onSubmit={handleSubmit(onSubmit)}>
 						<ModalBody>
@@ -139,7 +139,7 @@ const UpdateUser: React.FC<UserUpdateProps> = ({ user_ }) => {
 								color="white"
 								_hover={{ bg: 'brand.500' }}
 							>
-								Create User
+								Update User
 							</Button>
 						</ModalFooter>
 					</form>
