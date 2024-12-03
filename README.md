@@ -1,46 +1,111 @@
-# Getting Started with Create React App
+![Chakra](https://img.shields.io/badge/chakra-%234ED1C5.svg?style=for-the-badge&logo=chakraui&logoColor=white)
+![React](https://img.shields.io/badge/react-%2320232a.svg?style=for-the-badge&logo=react&logoColor=%2361DAFB)
+![React Router](https://img.shields.io/badge/React_Router-CA4245?style=for-the-badge&logo=react-router&logoColor=white)
+![React Hook Form](https://img.shields.io/badge/React%20Hook%20Form-%23EC5990.svg?style=for-the-badge&logo=reacthookform&logoColor=white)
+![Redux](https://img.shields.io/badge/redux-%23593d88.svg?style=for-the-badge&logo=redux&logoColor=white)
+![Webpack](https://img.shields.io/badge/webpack-%238DD6F9.svg?style=for-the-badge&logo=webpack&logoColor=black)
+![Zod](https://img.shields.io/badge/zod-%233068b7.svg?style=for-the-badge&logo=zod&logoColor=white)
+![TypeScript](https://img.shields.io/badge/typescript-%23007ACC.svg?style=for-the-badge&logo=typescript&logoColor=white)
+![NPM](https://img.shields.io/badge/NPM-%23CB3837.svg?style=for-the-badge&logo=npm&logoColor=white)
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# Speak About It - Frontend
 
-## Available Scripts
+**Speak About It** is a question-and-answer platform designed for both professional and enthusiast programmers. This frontend project is built with modern technologies to provide a smooth, interactive experience for users to share challenges, solutions, and collaborate with others.
 
-In the project directory, you can run:
+## Table of Contents
 
-### `npm start`
+- [Technology Stack](#technology-stack)
+- [Features](#features)
+- [Getting Started](#getting-started)
+  - [Prerequisites](#prerequisites)
+  - [Installation](#installation)
+- [Usage](#usage)
+  - [Running the Application](#running-the-application)
+- [License](#license)
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+---
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+## Technology Stack
 
-### `npm test`
+This project is built using the following frontend technologies:
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+- **React**: A powerful JavaScript library for building user interfaces, enabling a component-based architecture.
+- **TypeScript**: Provides type safety to improve code quality and developer productivity.
+- **Chakra UI**: A modern React UI library that simplifies building accessible and visually appealing components.
+- **React Router**: Used for handling client-side routing, enabling navigation within the app without full page reloads.
+- **React Hook Form**: Simplifies form handling and validation in React applications.
+- **Redux**: A state management tool used to manage and share state across the app.
+- **Zod**: A TypeScript-first schema validation library to ensure the integrity of data throughout the app.
+- **Webpack**: A module bundler used to bundle and optimize JavaScript, CSS, and other assets for production.
+- **NPM**: Node Package Manager is used for managing project dependencies and scripts.
 
-### `npm run build`
+---
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## Features
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+- **User Registration and Authentication**: Secure registration and login system to create and manage accounts.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+- **User Registration and Authentication**: Secure registration and login system to create and manage accounts.
+- **Post Creation and Interaction**: Users can create posts, comment, and engage with other users' posts.
+  - **Markdown Support**: Posts are displayed and created using Markdown, allowing users to format text, add links, images, and code blocks for better readability and clarity.
+  - **Customizable Posts**: Users have the flexibility to customize their posts by adding rich text, images, code snippets, and even embedding content. This enhances the content presentation and provides a personalized experience for both the poster and the readers.
+- **Categories and Tags**: Posts can be categorized and tagged for easy organization and search.
+- **Sorting and Filtering**: Flexible options to sort and filter posts based on various criteria.
+- **Favorites**: Users can mark posts as favorites for easy access later.
+- **Notifications**: Receive email notifications about updates on subscribed posts.
+- **Role-based Access**: Different permissions for regular users and admins, controlling access to various features.
+- **Dark and Light Themes**: The app supports both dark and light themes. Users can toggle between these themes to suit their preferences. Chakra UI provides a seamless experience for switching between themes with the click of a button.
+- **User Status (Online/Offline)**: Users can see whether other users are online or offline, represented by a visible status indicator next to their profile. Active users are marked with a green dot, while inactive users are marked with a gray dot.
 
-### `npm run eject`
+## Getting Started
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+Follow these steps to set up the frontend project on your local machine.
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+### Prerequisites
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+Ensure you have the following installed:
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+- **Node.js**: [Download and install Node.js](https://nodejs.org/)
+- **NPM**: [Download and install NPM](https://docs.npmjs.com/downloading-and-installing-node-js-and-npm)
 
-## Learn More
+### Installation
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+1. **Clone the repository**:
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+   ```bash
+   git clone https://github.com/batushka11/USOF-frontend.git
+   ```
+
+2. **Navigate to the Project Folder**:
+
+   ```bash
+   cd USOF-frontend
+   ```
+
+3. **Set Up Environment Variables**: An .env.example file is provided with all the required environment variables. Create a .env file by copying .env.example and then fill in the necessary values.
+
+   ```bash
+   cp .env.example .env
+   ```
+
+4. **Install dependencies**: Install all necessary dependencies for the project by running:
+
+   ```bash
+   npm install
+   ```
+
+---
+
+### Running the Application
+
+- **Start the application using**:
+
+  ```bash
+  npm run start
+  ```
+
+By default, the app will be available at http://localhost:3000
+
+## License
+
+This project is licensed under the MIT License. See the [LICENSE](./License.md) file for more details.
