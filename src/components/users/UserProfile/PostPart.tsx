@@ -34,6 +34,7 @@ const PostsPart: React.FC = () => {
 				)
 				setPosts(detailedPosts)
 				setTotalPages(response.data.totalPages)
+				window.scrollTo({ top: 0 })
 			} catch (error: any) {
 			} finally {
 				setLoading(false)

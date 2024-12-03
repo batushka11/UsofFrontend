@@ -9,12 +9,31 @@ import {
 	Text,
 	useToast
 } from '@chakra-ui/react'
+import { zodResolver } from '@hookform/resolvers/zod'
 import React, { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { useNavigate, useParams } from 'react-router-dom'
+import { z } from 'zod'
 import { useAppDispatch, useAppSelector } from '../../hooks/reduxHooks'
 import { clearState } from '../../redux/auth/authSlice'
 import { newPasswordAsyncThunk } from '../../redux/auth/authThunks'
+
+const passwordSchema = z
+	.object({
+		password: z.string().min(8, 'Password must be at least 8 characters long'),
+		password_confirm: z.string()
+	})
+	.superRefine((data, ctx) => {
+		if (data.password !== data.password_confirm) {
+			ctx.addIssue({
+				code: z.ZodIssueCode.custom,
+				message: 'Passwords do not match',
+				path: ['password_confirm']
+			})
+		}
+	})
+
+type PasswordFormInputs = z.infer<typeof passwordSchema>
 
 const NewPasswordForm: React.FC = () => {
 	const [showConfirmPassword, setShowConfirmPassword] = useState(false)
@@ -27,14 +46,13 @@ const NewPasswordForm: React.FC = () => {
 
 	const {
 		register,
-		watch,
 		handleSubmit,
 		formState: { errors }
-	} = useForm()
+	} = useForm<PasswordFormInputs>({
+		resolver: zodResolver(passwordSchema)
+	})
 
-	const password = watch('password', '')
-
-	const onSubmit = (data: any) => {
+	const onSubmit = (data: PasswordFormInputs) => {
 		dispatch(
 			newPasswordAsyncThunk({ token: token as string, password: data.password })
 		)
@@ -70,13 +88,7 @@ const NewPasswordForm: React.FC = () => {
 				<InputGroup>
 					<Input
 						type={showPassword ? 'text' : 'password'}
-						{...register('password', {
-							required: 'Password is required',
-							minLength: {
-								value: 8,
-								message: 'Password must be at least 8 characters'
-							}
-						})}
+						{...register('password')}
 					/>
 					<InputRightElement>
 						<Button
@@ -89,7 +101,7 @@ const NewPasswordForm: React.FC = () => {
 				</InputGroup>
 				{errors.password && (
 					<Text color="red.500" fontSize="sm">
-						{String(errors.password.message)}
+						{errors.password.message}
 					</Text>
 				)}
 			</FormControl>
@@ -99,10 +111,7 @@ const NewPasswordForm: React.FC = () => {
 				<InputGroup>
 					<Input
 						type={showConfirmPassword ? 'text' : 'password'}
-						{...register('password_confirm', {
-							required: 'Please confirm your password',
-							validate: value => value === password || 'Passwords do not match'
-						})}
+						{...register('password_confirm')}
 					/>
 					<InputRightElement>
 						<Button
@@ -115,7 +124,7 @@ const NewPasswordForm: React.FC = () => {
 				</InputGroup>
 				{errors.password_confirm && (
 					<Text color="red.500" fontSize="sm">
-						{String(errors.password_confirm.message)}
+						{errors.password_confirm.message}
 					</Text>
 				)}
 			</FormControl>

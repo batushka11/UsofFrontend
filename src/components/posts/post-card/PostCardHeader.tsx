@@ -11,12 +11,24 @@ const PostCardHeader: React.FC<{ post: Post }> = ({ post }) => {
 		<Flex direction="column" ml="2">
 			{user.role === 'ADMIN' || user.id === post.author.id ? (
 				post.status === 'ACTIVE' ? (
-					<Text color="green.500" fontSize="lg" mr="2">
-						✅
+					<Text
+						color="green.500"
+						fontWeight="bold"
+						fontSize="lg"
+						mr="2"
+						textDecoration="underline"
+					>
+						ACTIVE
 					</Text>
 				) : (
-					<Text color="red.500" fontSize="lg" mr="2">
-						❌
+					<Text
+						color="red.500"
+						fontSize="lg"
+						mr="2"
+						fontWeight="bold"
+						textDecoration="underline"
+					>
+						INACTIVE
 					</Text>
 				)
 			) : (

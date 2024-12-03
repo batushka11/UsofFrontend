@@ -67,7 +67,7 @@ const BookmarkPostsBoard: React.FC = () => {
 				const queryParams = new URLSearchParams({
 					page: id || '1',
 					size: appliedFilters.limit,
-					...(appliedFilters.title && { title: appliedFilters.title }),
+					...(appliedFilters.title && { title: appliedFilters.title.trim() }),
 					...(appliedFilters.startDate && {
 						'date[start]': appliedFilters.startDate
 					}),
@@ -90,13 +90,15 @@ const BookmarkPostsBoard: React.FC = () => {
 				)
 				setPosts(detailedPosts)
 				setTotalPages(response.data.totalPages)
+				if (detailedPosts.length < 1) {
+					toast({
+						title: 'Don`t found anyone posts. P',
+						status: 'error',
+						duration: 3000,
+						isClosable: true
+					})
+				}
 			} catch (error: any) {
-				toast({
-					title: error.response?.data?.message,
-					status: 'error',
-					duration: 3000,
-					isClosable: true
-				})
 			} finally {
 				setLoading(false)
 			}
@@ -168,7 +170,7 @@ const BookmarkPostsBoard: React.FC = () => {
 				mb="6"
 			>
 				<Input
-					placeholder="Search by title"
+					placeholder={filters.title !== '' ? filters.title : 'Search by title'}
 					name="title"
 					value={filters.title}
 					onChange={handleFilterChange}

@@ -10,7 +10,7 @@ import {
 	useToast
 } from '@chakra-ui/react'
 import { useEffect, useState } from 'react'
-import { useNavigate, useParams } from 'react-router-dom'
+import { useNavigate, useParams, useSearchParams } from 'react-router-dom'
 import ReactSelect, { MultiValue } from 'react-select'
 import apiClient from '../../../helpers/axios'
 import { useAppSelector } from '../../../hooks/reduxHooks'
@@ -29,6 +29,8 @@ const PostsBoard: React.FC = () => {
 	const [categories, setCategories] = useState<
 		{ label: string; value: string }[]
 	>([])
+	const [searchParams] = useSearchParams()
+	const titleParam = searchParams.get('title') || ''
 	const defaultFilters = {
 		title: '',
 		status: '',
@@ -41,6 +43,12 @@ const PostsBoard: React.FC = () => {
 	}
 	const [filters, setFilters] = useState(defaultFilters)
 	const [draftFilters, setDraftFilters] = useState(defaultFilters)
+
+	useEffect(() => {
+		if (titleParam) {
+			setFilters(prevFilters => ({ ...prevFilters, title: titleParam }))
+		}
+	}, [titleParam])
 
 	useEffect(() => {
 		const fetchCategories = async () => {
@@ -71,7 +79,7 @@ const PostsBoard: React.FC = () => {
 				const queryParams = new URLSearchParams({
 					page: id || '1',
 					size: filters.limit || '10',
-					...(filters.title && { title: filters.title }),
+					...(filters.title && { title: filters.title.trim() }),
 					...(filters.status && { status: filters.status }),
 					...(filters.startDate && { 'date[start]': filters.startDate }),
 					...(filters.endDate && { 'date[end]': filters.endDate }),
@@ -89,6 +97,14 @@ const PostsBoard: React.FC = () => {
 				)
 				setPosts(detailedPosts)
 				setTotalPages(response.data.totalPages)
+				if (detailedPosts.length < 1) {
+					toast({
+						title: 'Don`t found anyone posts',
+						status: 'error',
+						duration: 3000,
+						isClosable: true
+					})
+				}
 			} catch (error: any) {
 				toast({
 					title: error.response?.data?.message,
@@ -132,6 +148,7 @@ const PostsBoard: React.FC = () => {
 	const resetFilters = () => {
 		setDraftFilters(defaultFilters)
 		setFilters(defaultFilters)
+		window.history.replaceState(null, '', '/home/1')
 	}
 
 	return (
@@ -151,7 +168,7 @@ const PostsBoard: React.FC = () => {
 				mb="6"
 			>
 				<Input
-					placeholder="Search by title"
+					placeholder={filters.title !== '' ? filters.title : 'Search by title'}
 					name="title"
 					value={draftFilters.title}
 					onChange={handleFilterChange}

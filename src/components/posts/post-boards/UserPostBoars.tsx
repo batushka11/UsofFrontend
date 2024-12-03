@@ -6,7 +6,8 @@ import {
 	Select,
 	SimpleGrid,
 	Spinner,
-	Text
+	Text,
+	useToast
 } from '@chakra-ui/react'
 import { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
@@ -18,6 +19,7 @@ import fetchPostsWithDetails, { Post } from '../FetchPosts'
 import PostCard from '../post-card/PostCard'
 
 const UserPostsBoard: React.FC = () => {
+	const toast = useToast()
 	const navigate = useNavigate()
 	const { id } = useParams<{ id: string }>()
 	const { user } = useAppSelector(state => state.auth)
@@ -61,7 +63,7 @@ const UserPostsBoard: React.FC = () => {
 				const queryParams = new URLSearchParams({
 					page: id || '1',
 					size: filters.limit,
-					...(filters.title && { title: filters.title }),
+					...(filters.title && { title: filters.title.trim() }),
 					...(filters.startDate && { 'date[start]': filters.startDate }),
 					...(filters.endDate && { 'date[end]': filters.endDate }),
 					...(filters.sortBy && { sortBy: filters.sortBy }),
@@ -79,6 +81,14 @@ const UserPostsBoard: React.FC = () => {
 				)
 				setPosts(detailedPosts)
 				setTotalPages(response.data.totalPages)
+				if (detailedPosts.length < 1) {
+					toast({
+						title: 'Don`t found anyone posts',
+						status: 'error',
+						duration: 3000,
+						isClosable: true
+					})
+				}
 			} catch (error) {
 			} finally {
 				setLoading(false)
@@ -86,7 +96,7 @@ const UserPostsBoard: React.FC = () => {
 		}
 		window.scrollTo({ top: 0 })
 		fetchPosts()
-	}, [id, user.id, filters])
+	}, [id, user.id, filters, toast])
 
 	const handleFilterChange = (
 		e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
@@ -153,7 +163,7 @@ const UserPostsBoard: React.FC = () => {
 				mb="6"
 			>
 				<Input
-					placeholder="Search by title"
+					placeholder={filters.title !== '' ? filters.title : 'Search by title'}
 					name="title"
 					value={tempFilters.title}
 					onChange={handleFilterChange}

@@ -61,7 +61,7 @@ const SubscribesPostsBoard: React.FC = () => {
 				const queryParams = new URLSearchParams({
 					page: id || '1',
 					size: filters.limit || '10',
-					...(filters.title && { title: filters.title }),
+					...(filters.title && { title: filters.title.trim() }),
 					...(filters.startDate && { 'date[start]': filters.startDate }),
 					...(filters.endDate && { 'date[end]': filters.endDate }),
 					...(filters.sortBy && { sortBy: filters.sortBy }),
@@ -80,6 +80,14 @@ const SubscribesPostsBoard: React.FC = () => {
 				)
 				setPosts(detailedPosts)
 				setTotalPages(response.data.totalPages)
+				if (detailedPosts.length < 1) {
+					toast({
+						title: 'Don`t found anyone posts',
+						status: 'error',
+						duration: 3000,
+						isClosable: true
+					})
+				}
 			} catch (error: any) {
 			} finally {
 				setLoading(false)
@@ -136,7 +144,7 @@ const SubscribesPostsBoard: React.FC = () => {
 				mb="6"
 			>
 				<Input
-					placeholder="Search by title"
+					placeholder={filters.title !== '' ? filters.title : 'Search by title'}
 					name="title"
 					value={draftFilters.title}
 					onChange={handleFilterChange}

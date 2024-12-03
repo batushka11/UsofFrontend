@@ -1,4 +1,4 @@
-import { InfoIcon, MoonIcon, SunIcon } from '@chakra-ui/icons'
+import { MoonIcon, SunIcon } from '@chakra-ui/icons'
 import {
 	Avatar,
 	AvatarBadge,
@@ -15,7 +15,6 @@ import {
 	MenuItem,
 	MenuList,
 	Text,
-	Tooltip,
 	useColorMode,
 	useToast,
 	VStack
@@ -39,26 +38,9 @@ const Header: React.FC = () => {
 	const [query, setQuery] = useState('')
 
 	const handleSearch = () => {
-		if (query === 'Categories') {
-			navigate('/categories')
-		} else if (query === 'Bookmarks') {
-			navigate('/bookmarks/1')
-		} else if (query === 'Subscribes') {
-			navigate('/subscribes/1')
-		} else if (query === 'My posts') {
-			navigate('/my-posts/1')
-		} else if (query === 'Posts') {
-			navigate('/home/1')
-		} else if (query === 'Create') {
-			navigate('/create-post')
-		} else if (query === 'Home') {
-			navigate('/home/1')
-		} else if (query === 'Users') {
-			navigate('/users/1')
-		} else if (query === 'Profile') {
-			navigate('/my-profile')
-		} else {
-			navigate('/not-found')
+		if (query.trim()) {
+			navigate(`/home/1?title=${encodeURIComponent(query)}`)
+			setQuery('')
 		}
 	}
 
@@ -103,7 +85,7 @@ const Header: React.FC = () => {
 					<Input
 						width="500px"
 						borderRadius="full"
-						placeholder="Search..."
+						placeholder="Search posts by title..."
 						bg="brand.50"
 						borderColor="brand.200"
 						_focus={{ borderColor: 'brand.300' }}
@@ -115,35 +97,6 @@ const Header: React.FC = () => {
 							}
 						}}
 					/>
-					<Tooltip
-						label={
-							<Box borderRadius="25px">
-								<Text>
-									<strong>Type this → Go to:</strong>
-								</Text>
-								<Text>Categories → `categories`</Text>
-								<Text>Bookmarks → `bookmarks`</Text>
-								<Text>Subscribes → `subscribes`</Text>
-								<Text>My posts → `my-posts`</Text>
-								<Text>Posts → `posts`</Text>
-								<Text>Create → `create-post`</Text>
-								<Text>Home → `home`</Text>
-								<Text>Users → `users`</Text>
-								<Text>Profile → `my-profile`</Text>
-							</Box>
-						}
-						fontSize="md"
-						placement="right"
-						hasArrow
-					>
-						<IconButton
-							aria-label="Info"
-							icon={<InfoIcon />}
-							variant="ghost"
-							size="24"
-							ml="2"
-						/>
-					</Tooltip>
 				</InputGroup>
 			</Box>
 
@@ -192,20 +145,20 @@ const Header: React.FC = () => {
 								</VStack>
 							</HStack>
 						</MenuButton>
-						<MenuList bg="brand.200" borderColor="brand.50">
+						<MenuList bg="brand.400" borderColor="brand.500">
 							<MenuItem
-								bg="brand.200"
-								color="brand.500"
-								_hover={{ bg: 'brand.100' }}
+								bg="brand.400"
+								color="brand.0"
+								_hover={{ bg: 'brand.500' }}
 								onClick={handleProfile}
 								fontSize="18px"
 							>
 								Profile
 							</MenuItem>
 							<MenuItem
-								bg="brand.200"
-								color="brand.500"
-								_hover={{ bg: 'brand.100' }}
+								bg="brand.400"
+								color="brand.0"
+								_hover={{ bg: 'brand.500' }}
 								onClick={handleLogout}
 								fontSize="18px"
 							>
