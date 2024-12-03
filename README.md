@@ -44,8 +44,6 @@ This project is built using the following frontend technologies:
 ## Features
 
 - **User Registration and Authentication**: Secure registration and login system to create and manage accounts.
-
-- **User Registration and Authentication**: Secure registration and login system to create and manage accounts.
 - **Post Creation and Interaction**: Users can create posts, comment, and engage with other users' posts.
   - **Markdown Support**: Posts are displayed and created using Markdown, allowing users to format text, add links, images, and code blocks for better readability and clarity.
   - **Customizable Posts**: Users have the flexibility to customize their posts by adding rich text, images, code snippets, and even embedding content. This enhances the content presentation and provides a personalized experience for both the poster and the readers.
@@ -65,7 +63,6 @@ Follow these steps to set up the frontend project on your local machine.
 
 Ensure you have the following installed:
 
-- **Node.js**: [Download and install Node.js](https://nodejs.org/)
 - **NPM**: [Download and install NPM](https://docs.npmjs.com/downloading-and-installing-node-js-and-npm)
 
 ### Installation
