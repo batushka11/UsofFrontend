@@ -9,7 +9,9 @@ const PostCardHeader: React.FC<{ post: Post }> = ({ post }) => {
 
 	return (
 		<Flex direction="column" ml="2">
-			{user.role === 'ADMIN' || user.id === post.author.id ? (
+			{user.role === 'ADMIN' ||
+			(user.id === post.author.id &&
+				window.location.href.includes('my-posts')) ? (
 				post.status === 'ACTIVE' ? (
 					<Text
 						color="green.500"
