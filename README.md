@@ -1,3 +1,7 @@
+<div style="display: flex; justify-content: center; align-items: center; ">
+  <img src="https://speakaboutit.s3.eu-north-1.amazonaws.com/svgviewer-png-output-4.png" alt="Logo" style="height: 130px; width: 250px;" />
+</div>
+
 ![Chakra](https://img.shields.io/badge/chakra-%234ED1C5.svg?style=for-the-badge&logo=chakraui&logoColor=white)
 ![React](https://img.shields.io/badge/react-%2320232a.svg?style=for-the-badge&logo=react&logoColor=%2361DAFB)
 ![React Router](https://img.shields.io/badge/React_Router-CA4245?style=for-the-badge&logo=react-router&logoColor=white)
