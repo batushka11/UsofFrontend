@@ -82,7 +82,7 @@ const SubscribesPostsBoard: React.FC = () => {
 				setTotalPages(response.data.totalPages)
 				if (detailedPosts.length < 1) {
 					toast({
-						title: 'Don`t found anyone posts',
+						title: 'Don`t found any posts',
 						status: 'error',
 						duration: 3000,
 						isClosable: true

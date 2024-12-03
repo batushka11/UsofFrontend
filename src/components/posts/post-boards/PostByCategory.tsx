@@ -5,7 +5,8 @@ import {
 	Select,
 	SimpleGrid,
 	Spinner,
-	Text
+	Text,
+	useToast
 } from '@chakra-ui/react'
 import { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
@@ -16,6 +17,7 @@ import fetchPostsWithDetails, { Post } from '../FetchPosts'
 import PostCard from '../post-card/PostCard'
 
 const PostByCategoryBoard: React.FC = () => {
+	const toast = useToast()
 	const navigate = useNavigate()
 	const [category, setCategory] = useState<Category>()
 	const [posts, setPosts] = useState<Post[]>([])
@@ -40,8 +42,15 @@ const PostByCategoryBoard: React.FC = () => {
 				setCategory(responseCategory.data)
 				setPosts(detailedPosts)
 				setTotalPages(response.data.totalPages)
+				if (detailedPosts.length < 1) {
+					toast({
+						title: 'Don`t found any posts associated with this category',
+						status: 'error',
+						duration: 3000,
+						isClosable: true
+					})
+				}
 			} catch (error: any) {
-				console.error('Error fetching posts:', error)
 			} finally {
 				setLoading(false)
 			}

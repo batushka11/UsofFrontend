@@ -92,7 +92,7 @@ const BookmarkPostsBoard: React.FC = () => {
 				setTotalPages(response.data.totalPages)
 				if (detailedPosts.length < 1) {
 					toast({
-						title: 'Don`t found anyone posts. P',
+						title: 'Don`t found any posts. P',
 						status: 'error',
 						duration: 3000,
 						isClosable: true
