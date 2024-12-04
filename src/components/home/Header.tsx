@@ -83,7 +83,7 @@ const Header: React.FC = () => {
 						children={<Icon as={FiSearch} color="brand.400" />}
 					/>
 					<Input
-						width="500px"
+						maxW="500px"
 						borderRadius="full"
 						placeholder="Search posts by title..."
 						bg="brand.50"

@@ -41,7 +41,7 @@ function App() {
 				path="/my-profile"
 				element={
 					<ProtectedRoute>
-						<Page content=<ProfileBoard /> height="calc(100vh - 106px)" />
+						<Page content=<ProfileBoard /> height="200vh" />
 					</ProtectedRoute>
 				}
 			/>

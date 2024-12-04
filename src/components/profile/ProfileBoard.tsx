@@ -8,7 +8,11 @@ import ProfileHeader from './ProfileHeader'
 const ProfileBoard = () => {
 	return (
 		<Box>
-			<SimpleGrid columns={3} spacing="6" maxHeight="900px">
+			<SimpleGrid
+				columns={{ sm: 1, md: 1, lg: 3, xl: 3 }}
+				spacing="6"
+				maxHeight="900px"
+			>
 				<AchievementsBox />
 				<Box
 					maxW="700px"
