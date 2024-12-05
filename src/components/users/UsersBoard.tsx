@@ -227,7 +227,7 @@ const UsersBoard: React.FC = () => {
 					<Spinner size="xl" />
 				</Flex>
 			) : (
-				<SimpleGrid columns={3} spacing="5">
+				<SimpleGrid columns={{ sm: 1, md: 1, lg: 3, xl: 3 }} spacing="5">
 					{users.map(user => (
 						<UserCard key={user.id} user_={user} />
 					))}

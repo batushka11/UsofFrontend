@@ -160,7 +160,7 @@ const CategoryBoard: React.FC = () => {
 					<Spinner size="xl" />
 				</Flex>
 			) : (
-				<SimpleGrid columns={3} spacing="6">
+				<SimpleGrid columns={{ sm: 1, md: 1, lg: 3, xl: 3 }} spacing="6">
 					{filteredCategories.map(category => (
 						<CategoryCard key={category.id} category={category} />
 					))}

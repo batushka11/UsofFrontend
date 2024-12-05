@@ -9,7 +9,7 @@ export const calculateMembershipBadges = (user: any) => {
 		(now.getTime() - createdAt.getTime()) / (1000 * 60 * 60 * 24)
 	)
 
-	if (diffInDays >= 1)
+	if (diffInDays >= 0)
 		membershipBadges.push({ label: '1 Day With Us', icon: FaMedal })
 	if (diffInDays >= 30)
 		membershipBadges.push({ label: '1 Month With Us', icon: FaMedal })
